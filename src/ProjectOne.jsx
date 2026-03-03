@@ -65,10 +65,25 @@ title: "Readly.in The ",
 ];
 
 const EXP = [
-  {role:"Senior Full-Stack Developer",company:"TechNova Inc.",period:"2022 – Present",type:"Full-Time",desc:"Led microservices architecture serving 2M+ users. Built real-time analytics reducing load times by 60%. Mentored a team of 8 developers.",wins:["2M+ users","60% faster","8-dev team","$2.4M impact"],accent:"#2563EB",icon:"fas fa-rocket"},
-  {role:"Full-Stack Developer",company:"WebCraft Studios",period:"2020 – 2022",type:"Full-Time",desc:"Delivered 15+ client MERN projects. Implemented CI/CD pipelines, Dockerized deployments and automated testing achieving 95% coverage.",wins:["15+ projects","95% coverage","30% faster","100% on-time"],accent:"#6366F1",icon:"fas fa-laptop-code"},
-  {role:"Backend Developer Intern",company:"StartupHub",period:"2019 – 2020",type:"Internship",desc:"Designed RESTful APIs for fintech startup, integrated payment gateways, optimized MongoDB queries achieving 40% faster response times.",wins:["40% faster","Payment API","3 products","Open-source"],accent:"#0EA5E9",icon:"fas fa-code"},
-  {role:"Freelance Web Developer",company:"Self-Employed",period:"2018 – 2019",type:"Freelance",desc:"Delivered 25+ web projects for clients across 8 countries. Specialized in React frontends and Node.js backends for SaaS, e-commerce sites.",wins:["25+ projects","8 countries","98% rating","$150K rev"],accent:"#16A34A",icon:"fas fa-briefcase"},
+
+  {
+    role: "Full-Stack Developer | Intern",
+    company: "GM INFOTECH PVT LTD",
+    period: "Dec 2025 – Jan 2026",
+    type: "Full-Time ",
+    desc: "Developed a production-ready Age Verification Popup (AVP) Shopify plugin using the MERN stack, enabling seamless integration for online stores  Engineered a secure pay-to-use plugin system, allowing merchants to install and manage the extension efficiently.– Built a dynamic admin dashboard with customizable popup settings, improving merchant control and usability.– Implemented an analytics module with interactive graphs to track visitor verification data and user behavior",
+    achievements: [
+      "React.js",
+      "MongoDB",
+      "Node.js",
+      "Express.js",
+      "Shopify API",
+      "React Polarise",
+    ],
+    color: "#2563EB",
+    icon: "fas fa-rocket",
+  },
+
 ];
 
 const STATS_DATA = [
