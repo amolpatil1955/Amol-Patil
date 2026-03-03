@@ -46,6 +46,7 @@ const SKILLS = {
 };
 
 const PROJECTS = [
+   {
 title: "Readly.in The ",
     subtitle: "Full-Stack Blogs Website ",
     desc: "The is Blogs website Daily New Blogs by Authors and Millions Of readers.",
@@ -57,6 +58,7 @@ title: "Readly.in The ",
     live: "https://readly-in-fronted.onrender.com/",
     stats: { stars: 340, forks: 89, views: "12K" },
     featured: true,
+   }
        // {title:"ChatSphere",  subtitle:"Real-Time Chat App",     desc:"Scalable chat platform with WebSocket integration, E2E encryption, WebRTC video calling, group management and file sharing. Handles 10K+ concurrent users with zero downtime.",tech:["React","Socket.io","Node.js","MongoDB","WebRTC"],accent:"#6366F1",icon:"fas fa-comments",stats:{stars:520,forks:134,views:"18K"},featured:true},
   // {title:"DevBoard",    subtitle:"Project Management SaaS",desc:"Jira-like project tool with Kanban boards, sprint planning, burndown charts, GitHub integration and automated deployment tracking for agile development teams.",tech:["Next.js","Express","PostgreSQL","GraphQL","Docker"],accent:"#7C3AED",icon:"fas fa-tasks",stats:{stars:280,forks:67,views:"9K"},featured:false},
   // {title:"AiNotes",    subtitle:"AI Note Taking App",      desc:"Smart note-taking with GPT-4 integration, semantic search, auto-tagging, mind-map visualization, markdown support and intelligent summarization of long documents.",tech:["React","Node.js","MongoDB","OpenAI","Langchain"],accent:"#0EA5E9",icon:"fas fa-brain",stats:{stars:410,forks:102,views:"15K"},featured:true},
