@@ -46,12 +46,22 @@ const SKILLS = {
 };
 
 const PROJECTS = [
-  {title:"NexaCommerce",subtitle:"E-Commerce Platform",    desc:"Enterprise-grade e-commerce with real-time inventory, AI recommendations, Stripe & Razorpay payments, analytics dashboard, and microservices architecture serving millions of daily transactions.",tech:["React","Node.js","MongoDB","Redis","Stripe","Docker"],accent:"#2563EB",icon:"fas fa-shopping-cart",stats:{stars:340,forks:89,views:"12K"},featured:true},
-  {title:"ChatSphere",  subtitle:"Real-Time Chat App",     desc:"Scalable chat platform with WebSocket integration, E2E encryption, WebRTC video calling, group management and file sharing. Handles 10K+ concurrent users with zero downtime.",tech:["React","Socket.io","Node.js","MongoDB","WebRTC"],accent:"#6366F1",icon:"fas fa-comments",stats:{stars:520,forks:134,views:"18K"},featured:true},
-  {title:"DevBoard",    subtitle:"Project Management SaaS",desc:"Jira-like project tool with Kanban boards, sprint planning, burndown charts, GitHub integration and automated deployment tracking for agile development teams.",tech:["Next.js","Express","PostgreSQL","GraphQL","Docker"],accent:"#7C3AED",icon:"fas fa-tasks",stats:{stars:280,forks:67,views:"9K"},featured:false},
-  {title:"AiNotes",    subtitle:"AI Note Taking App",      desc:"Smart note-taking with GPT-4 integration, semantic search, auto-tagging, mind-map visualization, markdown support and intelligent summarization of long documents.",tech:["React","Node.js","MongoDB","OpenAI","Langchain"],accent:"#0EA5E9",icon:"fas fa-brain",stats:{stars:410,forks:102,views:"15K"},featured:true},
-  {title:"FinTrack Pro",subtitle:"Finance Dashboard",      desc:"Comprehensive finance tracker with bank API integration, automated categorization, portfolio tracking, budget alerts and predictive analytics with beautiful data visualizations.",tech:["React","Express","MongoDB","Chart.js","Plaid"],accent:"#16A34A",icon:"fas fa-chart-line",stats:{stars:195,forks:48,views:"7K"},featured:false},
-  {title:"CryptoVault", subtitle:"Crypto Portfolio",       desc:"Real-time crypto management with live price feeds, DeFi protocol integration, NFT tracking, tax loss harvesting suggestions and automated trading bots.",tech:["React","Node.js","WebSockets","MongoDB","Web3.js"],accent:"#D97706",icon:"fab fa-bitcoin",stats:{stars:620,forks:178,views:"22K"},featured:false},
+title: "Readly.in The ",
+    subtitle: "Full-Stack Blogs Website ",
+    desc: "The is Blogs website Daily New Blogs by Authors and Millions Of readers.",
+    tech: ["React", "Node.js", "MongoDB", "three.js", "express","", ],
+    color: "#2563EB",
+    accent: "#EFF6FF",
+    icon: "fas fa-shopping-cart",
+    github: "https://github.com/amolpatil1955/Readly.in",
+    live: "https://readly-in-fronted.onrender.com/",
+    stats: { stars: 340, forks: 89, views: "12K" },
+    featured: true,
+       // {title:"ChatSphere",  subtitle:"Real-Time Chat App",     desc:"Scalable chat platform with WebSocket integration, E2E encryption, WebRTC video calling, group management and file sharing. Handles 10K+ concurrent users with zero downtime.",tech:["React","Socket.io","Node.js","MongoDB","WebRTC"],accent:"#6366F1",icon:"fas fa-comments",stats:{stars:520,forks:134,views:"18K"},featured:true},
+  // {title:"DevBoard",    subtitle:"Project Management SaaS",desc:"Jira-like project tool with Kanban boards, sprint planning, burndown charts, GitHub integration and automated deployment tracking for agile development teams.",tech:["Next.js","Express","PostgreSQL","GraphQL","Docker"],accent:"#7C3AED",icon:"fas fa-tasks",stats:{stars:280,forks:67,views:"9K"},featured:false},
+  // {title:"AiNotes",    subtitle:"AI Note Taking App",      desc:"Smart note-taking with GPT-4 integration, semantic search, auto-tagging, mind-map visualization, markdown support and intelligent summarization of long documents.",tech:["React","Node.js","MongoDB","OpenAI","Langchain"],accent:"#0EA5E9",icon:"fas fa-brain",stats:{stars:410,forks:102,views:"15K"},featured:true},
+  // {title:"FinTrack Pro",subtitle:"Finance Dashboard",      desc:"Comprehensive finance tracker with bank API integration, automated categorization, portfolio tracking, budget alerts and predictive analytics with beautiful data visualizations.",tech:["React","Express","MongoDB","Chart.js","Plaid"],accent:"#16A34A",icon:"fas fa-chart-line",stats:{stars:195,forks:48,views:"7K"},featured:false},
+  // {title:"CryptoVault", subtitle:"Crypto Portfolio",       desc:"Real-time crypto management with live price feeds, DeFi protocol integration, NFT tracking, tax loss harvesting suggestions and automated trading bots.",tech:["React","Node.js","WebSockets","MongoDB","Web3.js"],accent:"#D97706",icon:"fab fa-bitcoin",stats:{stars:620,forks:178,views:"22K"},featured:false},
 ];
 
 const EXP = [
