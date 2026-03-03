@@ -1,57 +1,52 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 
-// ============================================================
-// MERN STACK PORTFOLIO - WHITE + LIGHT BLUE THEME
-// ============================================================
+/* ============================================================
+   LIGHT THEME  •  WHITE + BLUE  •  MERN STACK PORTFOLIO
+   Profile = animated SVG code-typing illustration
+   ============================================================ */
 
-const NAV_LINKS = [
-  "Home",
-  "About",
-  "Skills",
-  "Projects",
-  "Experience",
-  "Contact",
-];
+// ─── DATA ───────────────────────────────────────────────────
+
+const NAV = ["Home","About","Skills","Projects","Experience","Contact"];
 
 const SKILLS = {
-  Frontend: [
-    { name: "React.js", level: 95, icon: "fab fa-react", color: "#2563EB" },
-    { name: "Next.js", level: 90, icon: "fas fa-code", color: "#1D4ED8" },
-    { name: "TypeScript", level: 88, icon: "fas fa-file-code", color: "#3B82F6" },
-    { name: "Tailwind CSS", level: 92, icon: "fab fa-css3-alt", color: "#0EA5E9" },
-    { name: "Three.js", level: 80, icon: "fas fa-cube", color: "#6366F1" },
-    { name: "Redux", level: 85, icon: "fas fa-layer-group", color: "#7C3AED" },
+  Frontend:[
+    {name:"React.js",     pct:95, icon:"fab fa-react",          c:"#2563EB"},
+    {name:"Next.js",      pct:90, icon:"fas fa-code",            c:"#1D4ED8"},
+    {name:"TypeScript",   pct:88, icon:"fas fa-file-code",       c:"#3B82F6"},
+    {name:"Tailwind CSS", pct:92, icon:"fab fa-css3-alt",        c:"#0EA5E9"},
+    {name:"Three.js",     pct:80, icon:"fas fa-cube",            c:"#6366F1"},
+    {name:"Redux",        pct:85, icon:"fas fa-layer-group",     c:"#7C3AED"},
   ],
-  Backend: [
-    { name: "Node.js", level: 93, icon: "fab fa-node-js", color: "#16A34A" },
-    { name: "Express.js", level: 90, icon: "fas fa-server", color: "#2563EB" },
-    { name: "REST APIs", level: 95, icon: "fas fa-plug", color: "#0284C7" },
-    { name: "GraphQL", level: 82, icon: "fas fa-project-diagram", color: "#DB2777" },
-    { name: "WebSockets", level: 78, icon: "fas fa-wifi", color: "#0891B2" },
-    { name: "JWT Auth", level: 88, icon: "fas fa-shield-alt", color: "#D97706" },
+  Backend:[
+    {name:"Node.js",      pct:93, icon:"fab fa-node-js",         c:"#16A34A"},
+    {name:"Express.js",   pct:90, icon:"fas fa-server",          c:"#2563EB"},
+    {name:"REST APIs",    pct:95, icon:"fas fa-plug",            c:"#0284C7"},
+    {name:"GraphQL",      pct:82, icon:"fas fa-project-diagram", c:"#DB2777"},
+    {name:"WebSockets",   pct:78, icon:"fas fa-wifi",            c:"#0891B2"},
+    {name:"JWT Auth",     pct:88, icon:"fas fa-shield-alt",      c:"#D97706"},
   ],
-  Database: [
-    { name: "MongoDB", level: 92, icon: "fas fa-leaf", color: "#16A34A" },
-    { name: "PostgreSQL", level: 85, icon: "fas fa-database", color: "#2563EB" },
-    { name: "Redis", level: 78, icon: "fas fa-bolt", color: "#DC2626" },
-    { name: "Mongoose", level: 90, icon: "fas fa-sitemap", color: "#7C3AED" },
-    { name: "Firebase", level: 83, icon: "fas fa-fire", color: "#D97706" },
-    { name: "Elasticsearch", level: 72, icon: "fas fa-search", color: "#0891B2" },
+  Database:[
+    {name:"MongoDB",      pct:92, icon:"fas fa-leaf",            c:"#16A34A"},
+    {name:"PostgreSQL",   pct:85, icon:"fas fa-database",        c:"#2563EB"},
+    {name:"Redis",        pct:78, icon:"fas fa-bolt",            c:"#DC2626"},
+    {name:"Mongoose",     pct:90, icon:"fas fa-sitemap",         c:"#7C3AED"},
+    {name:"Firebase",     pct:83, icon:"fas fa-fire",            c:"#D97706"},
+    {name:"Elasticsearch",pct:72, icon:"fas fa-search",          c:"#0891B2"},
   ],
-  DevOps: [
-    { name: "Docker", level: 85, icon: "fab fa-docker", color: "#2563EB" },
-    { name: "AWS", level: 80, icon: "fab fa-aws", color: "#D97706" },
-    { name: "CI/CD", level: 82, icon: "fas fa-infinity", color: "#6366F1" },
-    { name: "Git & GitHub", level: 95, icon: "fab fa-github", color: "#1F2937" },
-    { name: "Linux", level: 88, icon: "fab fa-linux", color: "#374151" },
-    { name: "Nginx", level: 78, icon: "fas fa-network-wired", color: "#16A34A" },
+  DevOps:[
+    {name:"Docker",       pct:85, icon:"fab fa-docker",          c:"#2563EB"},
+    {name:"AWS",          pct:80, icon:"fab fa-aws",             c:"#D97706"},
+    {name:"CI/CD",        pct:82, icon:"fas fa-infinity",        c:"#6366F1"},
+    {name:"Git & GitHub", pct:95, icon:"fab fa-github",          c:"#1F2937"},
+    {name:"Linux",        pct:88, icon:"fab fa-linux",           c:"#374151"},
+    {name:"Nginx",        pct:78, icon:"fas fa-network-wired",   c:"#16A34A"},
   ],
 };
 
 const PROJECTS = [
-  {
-    title: "Readly.in The ",
+title: "Readly.in The ",
     subtitle: "Full-Stack Blogs Website ",
     desc: "The is Blogs website Daily New Blogs by Authors and Millions Of readers.",
     tech: ["React", "Node.js", "MongoDB", "three.js", "express","", ],
@@ -62,75 +57,15 @@ const PROJECTS = [
     live: "https://readly-in-fronted.onrender.com/",
     stats: { stars: 340, forks: 89, views: "12K" },
     featured: true,
-  },
-  // {
-  //   title: "ChatSphere",
-  //   subtitle: "Real-Time Communication Platform",
-  //   desc: "Scalable real-time chat app with WebSocket integration, end-to-end encryption, video calling via WebRTC, group management, file sharing, and push notifications. Handles 10K+ concurrent users.",
-  //   tech: ["React", "Socket.io", "Node.js", "MongoDB", "WebRTC", "Redis"],
-  //   color: "#6366F1",
-  //   accent: "#EEF2FF",
-  //   icon: "fas fa-comments",
-  //   github: "#",
-  //   live: "#",
-  //   stats: { stars: 520, forks: 134, views: "18K" },
-  //   featured: true,
-  // },
-  // {
-  //   title: "DevBoard",
-  //   subtitle: "Project Management SaaS",
-  //   desc: "Jira-like project management tool with Kanban boards, sprint planning, burndown charts, team collaboration, GitHub integration, and automated deployment tracking.",
-  //   tech: ["Next.js", "Express", "PostgreSQL", "GraphQL", "JWT", "Docker"],
-  //   color: "#0891B2",
-  //   accent: "#ECFEFF",
-  //   icon: "fas fa-tasks",
-  //   github: "#",
-  //   live: "#",
-  //   stats: { stars: 280, forks: 67, views: "9K" },
-  //   featured: false,
-  // },
-  // {
-  //   title: "AiNotes",
-  //   subtitle: "AI-Powered Note Taking App",
-  //   desc: "Smart note-taking with GPT-4 integration, semantic search, auto-tagging, mind map visualization, markdown support, and intelligent summarization of long documents.",
-  //   tech: ["React", "Node.js", "MongoDB", "OpenAI API", "Langchain", "Pinecone"],
-  //   color: "#7C3AED",
-  //   accent: "#F5F3FF",
-  //   icon: "fas fa-brain",
-  //   github: "#",
-  //   live: "#",
-  //   stats: { stars: 410, forks: 102, views: "15K" },
-  //   featured: true,
-  // },
-  // {
-  //   title: "FinTrack Pro",
-  //   subtitle: "Personal Finance Dashboard",
-  //   desc: "Comprehensive finance tracker with bank API integration, automated categorization, investment portfolio tracking, budget alerts, tax report generation, and predictive analytics.",
-  //   tech: ["React", "Express", "MongoDB", "Chart.js", "Plaid API", "Elasticsearch"],
-  //   color: "#16A34A",
-  //   accent: "#F0FDF4",
-  //   icon: "fas fa-chart-line",
-  //   github: "#",
-  //   live: "#",
-  //   stats: { stars: 195, forks: 48, views: "7K" },
-  //   featured: false,
-  // },
-  // {
-  //   title: "CryptoVault",
-  //   subtitle: "Crypto Portfolio Tracker",
-  //   desc: "Real-time cryptocurrency portfolio management with live price feeds, DeFi protocol integration, NFT tracking, tax loss harvesting suggestions, and automated trading bots.",
-  //   tech: ["React", "Node.js", "WebSockets", "MongoDB", "CoinGecko API", "Web3.js"],
-  //   color: "#D97706",
-  //   accent: "#FFFBEB",
-  //   icon: "fab fa-bitcoin",
-  //   github: "#",
-  //   live: "#",
-  //   stats: { stars: 620, forks: 178, views: "22K" },
-  //   featured: false,
-  // },
+       // {title:"ChatSphere",  subtitle:"Real-Time Chat App",     desc:"Scalable chat platform with WebSocket integration, E2E encryption, WebRTC video calling, group management and file sharing. Handles 10K+ concurrent users with zero downtime.",tech:["React","Socket.io","Node.js","MongoDB","WebRTC"],accent:"#6366F1",icon:"fas fa-comments",stats:{stars:520,forks:134,views:"18K"},featured:true},
+  // {title:"DevBoard",    subtitle:"Project Management SaaS",desc:"Jira-like project tool with Kanban boards, sprint planning, burndown charts, GitHub integration and automated deployment tracking for agile development teams.",tech:["Next.js","Express","PostgreSQL","GraphQL","Docker"],accent:"#7C3AED",icon:"fas fa-tasks",stats:{stars:280,forks:67,views:"9K"},featured:false},
+  // {title:"AiNotes",    subtitle:"AI Note Taking App",      desc:"Smart note-taking with GPT-4 integration, semantic search, auto-tagging, mind-map visualization, markdown support and intelligent summarization of long documents.",tech:["React","Node.js","MongoDB","OpenAI","Langchain"],accent:"#0EA5E9",icon:"fas fa-brain",stats:{stars:410,forks:102,views:"15K"},featured:true},
+  // {title:"FinTrack Pro",subtitle:"Finance Dashboard",      desc:"Comprehensive finance tracker with bank API integration, automated categorization, portfolio tracking, budget alerts and predictive analytics with beautiful data visualizations.",tech:["React","Express","MongoDB","Chart.js","Plaid"],accent:"#16A34A",icon:"fas fa-chart-line",stats:{stars:195,forks:48,views:"7K"},featured:false},
+  // {title:"CryptoVault", subtitle:"Crypto Portfolio",       desc:"Real-time crypto management with live price feeds, DeFi protocol integration, NFT tracking, tax loss harvesting suggestions and automated trading bots.",tech:["React","Node.js","WebSockets","MongoDB","Web3.js"],accent:"#D97706",icon:"fab fa-bitcoin",stats:{stars:620,forks:178,views:"22K"},featured:false},
 ];
 
-const EXPERIENCE = [
+const EXP = [
+
   {
     role: "Full-Stack Developer | Intern",
     company: "GM INFOTECH PVT LTD",
@@ -148,1486 +83,789 @@ const EXPERIENCE = [
     color: "#2563EB",
     icon: "fas fa-rocket",
   },
+
 ];
 
-const STATS = [
-  { value: "1+", label: "Years Experience", icon: "fas fa-calendar-alt" },
-  { value: "10+", label: "Projects Completed", icon: "fas fa-project-diagram" },
-  { value: "5+", label: "Happy Clients", icon: "fas fa-smile" },
-  { value: "50K+", label: "Users Served", icon: "fas fa-users" },
+const STATS_DATA = [
+  {val:"5+", label:"Years Experience",  icon:"fas fa-calendar-alt"},
+  {val:"80+",label:"Projects Completed",icon:"fas fa-project-diagram"},
+  {val:"50+",label:"Happy Clients",     icon:"fas fa-smile"},
+  {val:"2M+",label:"Users Served",      icon:"fas fa-users"},
 ];
 
-// ============================================================
-// THREE.JS BACKGROUND COMPONENT
-// ============================================================
-function ThreeBackground() {
-  const mountRef = useRef(null);
+// ─── HOOKS ──────────────────────────────────────────────────
 
-  useEffect(() => {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
-    camera.position.z = 30;
+function useReveal(t=0.12){
+  const ref=useRef(null); const [v,sv]=useState(false);
+  useEffect(()=>{
+    const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)sv(true);},{threshold:t});
+    if(ref.current)o.observe(ref.current);
+    return ()=>o.disconnect();
+  },[]);
+  return [ref,v];
+}
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    mountRef.current.appendChild(renderer.domElement);
+// ─── ANIMATED SVG CODE-TYPING PROFILE ───────────────────────
 
-    // Particle system — soft blue palette for white bg
-    const geo = new THREE.BufferGeometry();
-    const count = 2000;
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
-    const colorPalette = [
-      [0.22, 0.60, 0.98],  // blue
-      [0.37, 0.51, 0.96],  // indigo
-      [0.74, 0.82, 0.99],  // light blue
-      [0.06, 0.64, 0.87],  // sky
-      [0.48, 0.39, 0.93],  // violet
-    ];
+function CodeAvatar(){
+  const lines=[
+    {txt:"const developer = {",  color:"#1D4ED8", indent:0},
+    {txt:'  name: "Alex Johnson",', color:"#059669", indent:0},
+    {txt:'  role: "MERN Expert",',  color:"#059669", indent:0},
+    {txt:"  skills: [",           color:"#1D4ED8", indent:0},
+    {txt:'    "React", "Node",',  color:"#D97706", indent:0},
+    {txt:'    "MongoDB","Express"',color:"#D97706", indent:0},
+    {txt:"  ],",                  color:"#1D4ED8", indent:0},
+    {txt:"  passion: true,",      color:"#7C3AED", indent:0},
+    {txt:"  available: true",     color:"#059669", indent:0},
+    {txt:"};",                    color:"#1D4ED8", indent:0},
+    {txt:"",                      color:"transparent", indent:0},
+    {txt:"developer.build()",     color:"#2563EB", indent:0},
+    {txt:"  .then(launch) 🚀",    color:"#059669", indent:0},
+  ];
+  const [shown,setShown]=useState(0);
+  const [charIdx,setCharIdx]=useState(0);
+  const [linesDone,setLinesDone]=useState([]);
 
-    for (let i = 0; i < count * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 120;
-      positions[i + 1] = (Math.random() - 0.5) * 120;
-      positions[i + 2] = (Math.random() - 0.5) * 120;
-      const c = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-      colors[i] = c[0];
-      colors[i + 1] = c[1];
-      colors[i + 2] = c[2];
+  useEffect(()=>{
+    if(shown>=lines.length)return;
+    const cur=lines[shown].txt;
+    if(charIdx<cur.length){
+      const t=setTimeout(()=>setCharIdx(c=>c+1),38+Math.random()*25);
+      return ()=>clearTimeout(t);
+    } else {
+      const t=setTimeout(()=>{
+        setLinesDone(d=>[...d,{...lines[shown],txt:cur}]);
+        setShown(s=>s+1);
+        setCharIdx(0);
+      },90);
+      return ()=>clearTimeout(t);
     }
-    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+  },[shown,charIdx]);
 
-    const mat = new THREE.PointsMaterial({
-      size: 0.16,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.55,
-    });
-    const particles = new THREE.Points(geo, mat);
-    scene.add(particles);
+  const curLine=shown<lines.length?lines[shown]:null;
 
-    // Floating geometric shapes — blue wireframe
-    const shapes = [];
-    const shapeGeos = [
-      new THREE.OctahedronGeometry(1.5),
-      new THREE.TetrahedronGeometry(1.2),
-      new THREE.IcosahedronGeometry(1),
-    ];
-    const shapeMats = [
-      new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.18 }),
-      new THREE.MeshBasicMaterial({ color: 0x6366f1, wireframe: true, transparent: true, opacity: 0.15 }),
-      new THREE.MeshBasicMaterial({ color: 0x0ea5e9, wireframe: true, transparent: true, opacity: 0.12 }),
-    ];
+  return(
+    <div style={{width:"100%",maxWidth:420,background:"#F8FAFF",border:"1.5px solid #E2E8F0",borderRadius:20,overflow:"hidden",boxShadow:"0 20px 60px rgba(37,99,235,0.12), 0 4px 20px rgba(0,0,0,0.06)"}}>
+      {/* Window bar */}
+      <div style={{background:"#F1F5F9",borderBottom:"1px solid #E2E8F0",padding:"0.75rem 1rem",display:"flex",alignItems:"center",gap:"0.5rem"}}>
+        {["#EF4444","#F59E0B","#22C55E"].map(c=><div key={c} style={{width:11,height:11,borderRadius:"50%",background:c}}/>)}
+        <span style={{marginLeft:"0.5rem",fontSize:"0.72rem",color:"#94A3B8",fontFamily:"'JetBrains Mono',monospace",fontWeight:600}}>developer.js</span>
+        <div style={{marginLeft:"auto",display:"flex",gap:"0.3rem"}}>
+          {["fas fa-code-branch","fas fa-check-circle"].map(ic=><i key={ic} className={ic} style={{color:"#CBD5E1",fontSize:"0.7rem"}}/>)}
+        </div>
+      </div>
+      {/* Code area */}
+      <div style={{padding:"1.25rem 1.25rem 1rem",minHeight:240,fontFamily:"'JetBrains Mono',monospace",fontSize:"0.78rem",lineHeight:1.75,position:"relative"}}>
+        {/* Line numbers */}
+        <div style={{position:"absolute",left:0,top:"1.25rem",bottom:"1rem",width:32,textAlign:"right",paddingRight:6,color:"#CBD5E1",fontSize:"0.68rem",lineHeight:1.75,userSelect:"none"}}>
+          {Array.from({length:linesDone.length+(curLine?1:0)},(_,i)=><div key={i}>{i+1}</div>)}
+        </div>
+        <div style={{marginLeft:36}}>
+          {linesDone.map((l,i)=>(
+            <div key={i} style={{color:l.color,minHeight:"1.3em"}}>
+              {l.txt||"\u00A0"}
+            </div>
+          ))}
+          {curLine&&(
+            <div style={{color:curLine.color,display:"flex",alignItems:"center",minHeight:"1.3em"}}>
+              {lines[shown].txt.slice(0,charIdx)}
+              <span style={{display:"inline-block",width:2,height:"1em",background:"#2563EB",marginLeft:1,animation:"cursorBlink 1s step-end infinite"}}/>
+            </div>
+          )}
+        </div>
+      </div>
+      {/* Status bar */}
+      <div style={{background:"#2563EB",padding:"0.3rem 1rem",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+        <span style={{fontSize:"0.65rem",color:"rgba(255,255,255,0.8)",fontFamily:"'JetBrains Mono',monospace",fontWeight:600}}>✓ JavaScript  •  UTF-8</span>
+        <span style={{fontSize:"0.65rem",color:"rgba(255,255,255,0.7)",fontFamily:"'JetBrains Mono',monospace"}}>Ln {Math.min(shown+1,lines.length)}, Col {charIdx+1}</span>
+      </div>
+    </div>
+  );
+}
 
-    for (let i = 0; i < 8; i++) {
-      const idx = i % 3;
-      const mesh = new THREE.Mesh(shapeGeos[idx], shapeMats[idx]);
-      mesh.position.set(
-        (Math.random() - 0.5) * 60,
-        (Math.random() - 0.5) * 60,
-        (Math.random() - 0.5) * 30,
-      );
-      mesh.userData = {
-        rx: Math.random() * 0.005,
-        ry: Math.random() * 0.005,
-        rz: Math.random() * 0.003,
-      };
-      scene.add(mesh);
-      shapes.push(mesh);
+// ─── ANIMATED HERO BLOB / FLOATING SHAPES ───────────────────
+
+function HeroBlob(){
+  return(
+    <div style={{position:"absolute",inset:0,overflow:"hidden",pointerEvents:"none",zIndex:0}}>
+      {/* Large soft blob top-right */}
+      <div style={{position:"absolute",top:"-15%",right:"-10%",width:600,height:600,borderRadius:"50%",background:"radial-gradient(circle,rgba(37,99,235,0.07) 0%,transparent 70%)",animation:"blobFloat 8s ease-in-out infinite"}}/>
+      {/* Small blob bottom-left */}
+      <div style={{position:"absolute",bottom:"5%",left:"-8%",width:380,height:380,borderRadius:"50%",background:"radial-gradient(circle,rgba(99,102,241,0.06) 0%,transparent 70%)",animation:"blobFloat 10s ease-in-out infinite reverse"}}/>
+      {/* Dot grid */}
+      <svg style={{position:"absolute",top:0,left:0,width:"100%",height:"100%",opacity:0.4}} xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="1.5" cy="1.5" r="1.5" fill="#BFDBFE"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dots)"/>
+      </svg>
+      {/* Floating tech icons */}
+      {[
+        {icon:"fab fa-react",  top:"18%",left:"6%", color:"#61DAFB",size:26,dur:5},
+        {icon:"fab fa-node-js",top:"65%",left:"4%", color:"#8CC84B",size:22,dur:7},
+        {icon:"fas fa-leaf",   top:"25%",right:"5%",color:"#4DB33D",size:20,dur:6},
+        {icon:"fas fa-database",top:"70%",right:"6%",color:"#6366F1",size:22,dur:8},
+        {icon:"fab fa-js",     top:"45%",left:"2%", color:"#F7DF1E",size:20,dur:9},
+        {icon:"fab fa-docker", top:"50%",right:"3%",color:"#2496ED",size:22,dur:6.5},
+      ].map((f,i)=>(
+        <div key={i} style={{position:"absolute",top:f.top,left:f.left||undefined,right:f.right||undefined,animation:`floatIcon ${f.dur}s ease-in-out infinite ${i*0.8}s`,opacity:0.55}}>
+          <div style={{width:44,height:44,background:"#fff",borderRadius:12,boxShadow:"0 4px 16px rgba(37,99,235,0.1)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <i className={f.icon} style={{fontSize:f.size,color:f.color}}/>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── THREE.JS SECTION DIVIDER ───────────────────────────────
+
+function ThreeWave(){
+  const ref=useRef(null);
+  useEffect(()=>{
+    const w=ref.current.offsetWidth,h=120;
+    const scene=new THREE.Scene();
+    const cam=new THREE.OrthographicCamera(-w/2,w/2,h/2,-h/2,0.1,100);
+    cam.position.z=10;
+    const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
+    renderer.setSize(w,h);
+    renderer.setClearColor(0xffffff,0);
+    ref.current.appendChild(renderer.domElement);
+    const N=120;
+    const pts=[];
+    for(let i=0;i<N;i++){pts.push(new THREE.Vector3((i/(N-1))*w-w/2,0,0));}
+    const geo=new THREE.BufferGeometry().setFromPoints(pts);
+    const mat=new THREE.LineBasicMaterial({color:0x3B82F6,transparent:true,opacity:0.35});
+    const lines2=[];
+    for(let j=0;j<4;j++){
+      const g=geo.clone();
+      const m=new THREE.Line(g,new THREE.LineBasicMaterial({color:[0x3B82F6,0x6366F1,0x0EA5E9,0x93C5FD][j],transparent:true,opacity:0.25-j*0.04}));
+      scene.add(m);lines2.push({mesh:m,off:j*0.8,amp:18-j*3,freq:0.012+j*0.003});
     }
-
-    let mouseX = 0, mouseY = 0;
-    const onMouse = (e) => {
-      mouseX = (e.clientX / w - 0.5) * 0.3;
-      mouseY = (e.clientY / h - 0.5) * 0.3;
-    };
-    window.addEventListener("mousemove", onMouse);
-
-    let frame;
-    const animate = () => {
-      frame = requestAnimationFrame(animate);
-      particles.rotation.y += 0.0003;
-      particles.rotation.x += 0.0001;
-      shapes.forEach((s) => {
-        s.rotation.x += s.userData.rx;
-        s.rotation.y += s.userData.ry;
-        s.rotation.z += s.userData.rz;
+    let t2=0,af;
+    const tick=()=>{
+      af=requestAnimationFrame(tick);t2+=0.018;
+      lines2.forEach(({mesh,off,amp,freq})=>{
+        const pos=mesh.geometry.attributes.position;
+        for(let i=0;i<N;i++){
+          pos.setY(i,Math.sin(i*freq+t2+off)*amp);
+        }
+        pos.needsUpdate=true;
       });
-      camera.position.x += (mouseX - camera.position.x) * 0.02;
-      camera.position.y += (-mouseY - camera.position.y) * 0.02;
-      renderer.render(scene, camera);
+      renderer.render(scene,cam);
     };
-    animate();
-
-    const onResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("mousemove", onMouse);
-      window.removeEventListener("resize", onResize);
-      if (mountRef.current && renderer.domElement.parentNode === mountRef.current) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
-      renderer.dispose();
-    };
-  }, []);
-
-  return (
-    <div
-      ref={mountRef}
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        zIndex: 0,
-        pointerEvents: "none",
-      }}
-    />
-  );
+    tick();
+    return()=>{cancelAnimationFrame(af);if(ref.current?.contains(renderer.domElement))ref.current.removeChild(renderer.domElement);renderer.dispose();};
+  },[]);
+  return <div ref={ref} style={{width:"100%",height:120,overflow:"hidden"}}/>;
 }
 
-// ============================================================
-// TYPEWRITER COMPONENT
-// ============================================================
-function Typewriter({ words }) {
-  const [display, setDisplay] = useState("");
-  const [wi, setWi] = useState(0);
-  const [ci, setCi] = useState(0);
-  const [deleting, setDeleting] = useState(false);
+// ─── TYPEWRITER ──────────────────────────────────────────────
 
-  useEffect(() => {
-    const word = words[wi];
-    const speed = deleting ? 60 : 110;
-    const timer = setTimeout(() => {
-      if (!deleting) {
-        setDisplay(word.slice(0, ci + 1));
-        if (ci + 1 === word.length) {
-          setTimeout(() => setDeleting(true), 1800);
-        } else {
-          setCi(ci + 1);
-        }
-      } else {
-        setDisplay(word.slice(0, ci - 1));
-        if (ci - 1 === 0) {
-          setDeleting(false);
-          setWi((wi + 1) % words.length);
-          setCi(0);
-        } else {
-          setCi(ci - 1);
-        }
-      }
-    }, speed);
-    return () => clearTimeout(timer);
-  }, [ci, deleting, wi, words]);
-
-  return (
-    <span className="typewriter-text">
-      {display}
-      <span className="typewriter-cursor">|</span>
-    </span>
-  );
+function TW({words}){
+  const [txt,st]=useState(""); const [wi,sw]=useState(0); const [ci,sc]=useState(0); const [dl,sd]=useState(false);
+  useEffect(()=>{
+    const w=words[wi],sp=dl?50:100;
+    const t=setTimeout(()=>{
+      if(!dl){st(w.slice(0,ci+1));ci+1===w.length?setTimeout(()=>sd(true),1900):sc(ci+1);}
+      else{st(w.slice(0,ci-1));ci-1===0?(sd(false),sw((wi+1)%words.length),sc(0)):sc(ci-1);}
+    },sp);
+    return()=>clearTimeout(t);
+  },[ci,dl,wi]);
+  return<span style={{color:"#2563EB"}}>{txt}<span style={{animation:"cursorBlink 1s step-end infinite",color:"#2563EB"}}>|</span></span>;
 }
 
-// ============================================================
-// SKILL BAR COMPONENT
-// ============================================================
-function SkillBar({ name, level, icon, color, delay }) {
-  const [animated, setAnimated] = useState(false);
-  const ref = useRef(null);
+// ─── SKILL BAR ───────────────────────────────────────────────
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setAnimated(true); },
-      { threshold: 0.3 },
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-
-  return (
-    <div ref={ref} className="skill-bar-item" style={{ animationDelay: `${delay}ms` }}>
-      <div className="skill-bar-header">
-        <span className="skill-name">
-          <i className={`${icon} skill-icon`} style={{ color }} />
-          {name}
+function SkBar({name,pct,icon,c,delay}){
+  const [a,sa]=useState(false); const [ref,v]=useReveal(0.2);
+  useEffect(()=>{if(v)setTimeout(()=>sa(true),delay);},[v]);
+  return(
+    <div ref={ref} style={{opacity:v?1:0,transform:v?"translateX(0)":"translateX(-12px)",transition:`opacity .5s ${delay}ms,transform .5s ${delay}ms`}}>
+      <div style={{display:"flex",justifyContent:"space-between",marginBottom:"0.38rem"}}>
+        <span style={{display:"flex",alignItems:"center",gap:"0.45rem",fontSize:"0.84rem",fontWeight:700,color:"#1E293B"}}>
+          <i className={icon} style={{color:c,fontSize:"0.82rem",width:14}}/>{name}
         </span>
-        <span className="skill-level" style={{ color }}>{level}%</span>
+        <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"0.76rem",fontWeight:700,color:c}}>{pct}%</span>
       </div>
-      <div className="skill-bar-track">
-        <div
-          className="skill-bar-fill"
-          style={{
-            width: animated ? `${level}%` : "0%",
-            background: `linear-gradient(90deg, ${color}88, ${color})`,
-            boxShadow: `0 0 10px ${color}44`,
-            transition: "width 1.4s cubic-bezier(0.4,0,0.2,1)",
-            transitionDelay: `${delay}ms`,
-          }}
-        />
+      <div style={{height:7,borderRadius:4,background:"#EFF6FF",overflow:"hidden",border:"1px solid #DBEAFE"}}>
+        <div style={{height:"100%",borderRadius:4,background:`linear-gradient(90deg,${c}BB,${c})`,width:a?`${pct}%`:"0%",transition:"width 1.3s cubic-bezier(.4,0,.2,1)",boxShadow:`0 2px 8px ${c}44`}}/>
       </div>
     </div>
   );
 }
 
-// ============================================================
-// PROJECT CARD COMPONENT
-// ============================================================
-function ProjectCard({ project, index }) {
-  const [hovered, setHovered] = useState(false);
-  const ref = useRef(null);
-  const [vis, setVis] = useState(false);
+// ─── STAT CARD ───────────────────────────────────────────────
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVis(true); },
-      { threshold: 0.1 },
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      className={`project-card ${vis ? "visible" : ""} ${project.featured ? "featured" : ""}`}
-      style={{
-        "--card-color": project.color,
-        "--card-accent": project.accent,
-        animationDelay: `${index * 120}ms`,
-        borderColor: hovered ? project.color : "#E2E8F0",
-        boxShadow: hovered
-          ? `0 20px 48px ${project.color}22, 0 4px 16px rgba(0,0,0,0.06)`
-          : "0 2px 12px rgba(0,0,0,0.05)",
-        background: hovered ? project.accent : "#ffffff",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {project.featured && <div className="featured-badge">⭐ Featured</div>}
-      <div className="project-card-inner">
-        <div
-          className="project-icon-wrap"
-          style={{
-            background: `${project.color}15`,
-            border: `1px solid ${project.color}44`,
-          }}
-        >
-          <i className={project.icon} style={{ color: project.color, fontSize: "1.6rem" }} />
-        </div>
-        <h3 className="project-title" style={{ color: project.color }}>{project.title}</h3>
-        <p className="project-subtitle">{project.subtitle}</p>
-        <p className="project-desc">{project.desc}</p>
-        <div className="project-stats">
-          <span><i className="fas fa-star" style={{ color: "#D97706" }} /> {project.stats.stars}</span>
-          <span><i className="fas fa-code-branch" style={{ color: project.color }} /> {project.stats.forks}</span>
-          <span><i className="fas fa-eye" style={{ color: "#94A3B8" }} /> {project.stats.views}</span>
-        </div>
-        <div className="tech-tags">
-          {project.tech.map((t) => (
-            <span key={t} className="tech-tag" style={{ borderColor: `${project.color}44`, color: project.color }}>
-              {t}
-            </span>
-          ))}
-        </div>
-        <div className="project-links">
-          <a href={project.github} className="proj-btn" style={{ borderColor: project.color, color: project.color }}>
-            <i className="fab fa-github" /> Code
-          </a>
-          <a href={project.live} className="proj-btn proj-btn-filled" style={{ background: project.color, color: "#fff" }}>
-            <i className="fas fa-external-link-alt" /> Live Demo
-          </a>
-        </div>
-      </div>
+function StatCard({s,i}){
+  const [ref,v]=useReveal(0.2);
+  return(
+    <div ref={ref}
+      style={{textAlign:"center",padding:"2rem 1rem",background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:18,position:"relative",overflow:"hidden",transition:`all .6s cubic-bezier(.4,0,.2,1) ${i*90}ms`,opacity:v?1:0,transform:v?"translateY(0)":"translateY(20px)",boxShadow:"0 4px 20px rgba(37,99,235,0.06)",cursor:"default"}}
+      onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.transform="translateY(-4px)";e.currentTarget.style.boxShadow="0 12px 32px rgba(37,99,235,0.12)";}}
+      onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="0 4px 20px rgba(37,99,235,0.06)";}}>
+      <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:"linear-gradient(90deg,#3B82F6,#6366F1)"}}/>
+      <div style={{fontSize:"1.5rem",marginBottom:"0.65rem",color:"#2563EB"}}><i className={s.icon}/></div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:"2.4rem",fontWeight:800,background:"linear-gradient(135deg,#1D4ED8,#6366F1)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",lineHeight:1,marginBottom:"0.38rem"}}>{s.val}</div>
+      <div style={{fontSize:"0.72rem",color:"#64748B",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.1em"}}>{s.label}</div>
     </div>
   );
 }
 
-// ============================================================
-// EXPERIENCE CARD
-// ============================================================
-function ExperienceCard({ exp, index }) {
-  const ref = useRef(null);
-  const [vis, setVis] = useState(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVis(true); },
-      { threshold: 0.1 },
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
+// ─── PROJECT CARD ────────────────────────────────────────────
 
-  return (
-    <div ref={ref} className={`exp-card ${vis ? "visible" : ""}`} style={{ animationDelay: `${index * 150}ms` }}>
-      <div className="exp-line" style={{ background: exp.color }} />
-      <div className="exp-icon" style={{ background: `${exp.color}18`, border: `2px solid ${exp.color}`, color: exp.color }}>
-        <i className={exp.icon} />
+function ProjCard({p,index}){
+  const [h,sh]=useState(false); const [ref,v]=useReveal(0.08);
+  return(
+    <div ref={ref} onMouseEnter={()=>sh(true)} onMouseLeave={()=>sh(false)}
+      style={{background:h?"#fff":"#FAFCFF",border:`1.5px solid ${h?"#BFDBFE":"#E2E8F0"}`,borderRadius:20,padding:"1.6rem",position:"relative",overflow:"hidden",cursor:"default",transition:"all .3s cubic-bezier(.4,0,.2,1)",transform:v?(h?"translateY(-5px)":"translateY(0)"):"translateY(24px)",opacity:v?1:0,transitionDelay:v?`${index*80}ms`:"0ms",boxShadow:h?"0 20px 48px rgba(37,99,235,0.13), 0 4px 16px rgba(0,0,0,0.04)":"0 2px 12px rgba(0,0,0,0.04)"}}>
+      {/* Top color line */}
+      <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:p.accent,opacity:h?1:0.4,transition:"opacity .3s"}}/>
+      {p.featured&&<div style={{position:"absolute",top:"1rem",right:"1rem",background:`${p.accent}14`,border:`1px solid ${p.accent}44`,borderRadius:20,padding:"0.18rem 0.6rem",fontSize:"0.67rem",fontWeight:700,color:p.accent,letterSpacing:"0.06em"}}>★ Featured</div>}
+      <div style={{width:46,height:46,borderRadius:13,background:`${p.accent}12`,border:`1.5px solid ${p.accent}30`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"1rem"}}>
+        <i className={p.icon} style={{color:p.accent,fontSize:"1.1rem"}}/>
       </div>
-      <div className="exp-content">
-        <div className="exp-header">
-          <div>
-            <h3 className="exp-role" style={{ color: exp.color }}>{exp.role}</h3>
-            <p className="exp-company">{exp.company}</p>
-          </div>
-          <div className="exp-meta">
-            <span className="exp-period"><i className="fas fa-calendar" /> {exp.period}</span>
-            <span className="exp-type">{exp.type}</span>
-          </div>
-        </div>
-        <p className="exp-desc">{exp.desc}</p>
-        <div className="exp-achievements">
-          {exp.achievements.map((a) => (
-            <span key={a} className="achievement-tag" style={{ borderColor: `${exp.color}44`, color: exp.color }}>
-              <i className="fas fa-check-circle" /> {a}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ============================================================
-// LOADER COMPONENT
-// ============================================================
-function Loader({ onDone }) {
-  const [pct, setPct] = useState(0);
-  useEffect(() => {
-    let v = 0;
-    const t = setInterval(() => {
-      v += Math.random() * 8 + 2;
-      if (v >= 100) {
-        v = 100;
-        clearInterval(t);
-        setTimeout(onDone, 500);
-      }
-      setPct(Math.min(Math.floor(v), 100));
-    }, 60);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <div className="loader-overlay">
-      <div className="loader-content">
-        <div className="loader-logo">
-          <span className="loader-m">M</span>
-          <span className="loader-e">E</span>
-          <span className="loader-r">R</span>
-          <span className="loader-n">N</span>
-        </div>
-        <div className="loader-name">AMOL PATIL ...</div>
-        <div className="loader-bar-track">
-          <div className="loader-bar-fill" style={{ width: `${pct}%` }} />
-          <div className="loader-bar-glow" style={{ left: `${pct}%` }} />
-        </div>
-        <div className="loader-pct">{pct}%</div>
-        <div className="loader-msg">
-          {pct < 30 ? "Initializing systems..." : pct < 60 ? "Loading portfolio..." : pct < 90 ? "Rendering components..." : "Ready!"}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ============================================================
-// CURSOR COMPONENT
-// ============================================================
-function CustomCursor() {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
-  const pos = useRef({ x: 0, y: 0 });
-  const ring = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const move = (e) => {
-      pos.current = { x: e.clientX, y: e.clientY };
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-      }
-    };
-    window.addEventListener("mousemove", move);
-    let af;
-    const lerp = () => {
-      ring.current.x += (pos.current.x - ring.current.x) * 0.12;
-      ring.current.y += (pos.current.y - ring.current.y) * 0.12;
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${ring.current.x}px, ${ring.current.y}px)`;
-      }
-      af = requestAnimationFrame(lerp);
-    };
-    lerp();
-    return () => {
-      window.removeEventListener("mousemove", move);
-      cancelAnimationFrame(af);
-    };
-  }, []);
-
-  return (
-    <>
-      <div ref={dotRef} className="cursor-dot" />
-      <div ref={ringRef} className="cursor-ring" />
-    </>
-  );
-}
-
-// ============================================================
-// SECTION HEADER
-// ============================================================
-function SectionHeader({ tag, title, subtitle }) {
-  const ref = useRef(null);
-  const [vis, setVis] = useState(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVis(true); },
-      { threshold: 0.3 },
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-
-  return (
-    <div ref={ref} className={`section-header ${vis ? "visible" : ""}`}>
-      <span className="section-tag">{tag}</span>
-      <h2 className="section-title">{title}</h2>
-      {subtitle && <p className="section-subtitle">{subtitle}</p>}
-      <div className="section-line">
-        <div className="section-line-inner" />
-      </div>
-    </div>
-  );
-}
-
-// ============================================================
-// MAIN PORTFOLIO APP
-// ============================================================
-export default function Portfolio() {
-  const [loaded, setLoaded] = useState(false);
-  const [activeNav, setActiveNav] = useState("Home");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const [activeSkillTab, setActiveSkillTab] = useState("Frontend");
-  const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [formStatus, setFormStatus] = useState("");
-
-  useEffect(() => {
-    const onScroll = () => {
-      setScrollY(window.scrollY);
-      const sections = NAV_LINKS.map((n) => document.getElementById(n.toLowerCase()));
-      sections.forEach((s) => {
-        if (s && window.scrollY >= s.offsetTop - 120)
-          setActiveNav(s.id.charAt(0).toUpperCase() + s.id.slice(1));
-      });
-    };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollTo = (id) => {
-    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: "smooth" });
-    setMenuOpen(false);
-  };
-
-  const handleContact = (e) => {
-    e.preventDefault();
-    setFormStatus("sending");
-    setTimeout(() => {
-      setFormStatus("sent");
-      setContactForm({ name: "", email: "", subject: "", message: "" });
-    }, 2000);
-  };
-
-  if (!loaded) return <Loader onDone={() => setLoaded(true)} />;
-
-  return (
-    <>
-      {/* ============================================================
-          CSS STYLES — WHITE + LIGHTER BLUE THEME
-          Same structure as original, all dark colors → light equivalents
-      ============================================================ */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-          /* ── LIGHT THEME TOKENS ── */
-          --bg:       #F8FAFF;
-          --bg2:      #EFF6FF;
-          --bg3:      #E8F0FE;
-          --surface:  #FFFFFF;
-          --surface2: #F1F5F9;
-          --border:   #E2E8F0;
-          --border2:  #BFDBFE;
-          --text:     #0F172A;
-          --text2:    #475569;
-          --text3:    #94A3B8;
-
-          /* ── ACCENT PALETTE ── */
-          --blue:     #2563EB;
-          --blue2:    #3B82F6;
-          --blue3:    #BFDBFE;
-          --indigo:   #6366F1;
-          --sky:      #0EA5E9;
-
-          --font-display: 'Syne', sans-serif;
-          --font-body:    'Plus Jakarta Sans', sans-serif;
-          --font-code:    'JetBrains Mono', monospace;
-        }
-
-        html { scroll-behavior: smooth; }
-        body {
-          font-family: var(--font-body);
-          background: var(--bg);
-          color: var(--text);
-          overflow-x: hidden;
-          cursor: none;
-        }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg2); }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--blue), var(--indigo)); border-radius: 2px; }
-
-        /* CURSOR */
-        .cursor-dot {
-          position: fixed; top: -4px; left: -4px;
-          width: 8px; height: 8px;
-          background: var(--blue);
-          border-radius: 50%;
-          pointer-events: none; z-index: 9999;
-          will-change: transform;
-        }
-        .cursor-ring {
-          position: fixed; top: -16px; left: -16px;
-          width: 32px; height: 32px;
-          border: 1.5px solid rgba(37,99,235,0.45);
-          border-radius: 50%;
-          pointer-events: none; z-index: 9998;
-          will-change: transform;
-        }
-
-        /* LOADER */
-        .loader-overlay {
-          position: fixed; inset: 0;
-          background: linear-gradient(135deg, #EFF6FF 0%, #F8FAFF 50%, #EEF2FF 100%);
-          display: flex; align-items: center; justify-content: center;
-          height: 100vh; width: 100vw;
-          z-index: 99999;
-        }
-        .loader-content { text-align: center; }
-        .loader-logo {
-          font-family: var(--font-display);
-          font-size: 7rem; font-weight: 800;
-          letter-spacing: -0.02em;
-          margin-bottom: 0.5rem;
-          filter: drop-shadow(0 4px 24px rgba(37,99,235,0.2));
-        }
-        .loader-m { color: #2563EB; }
-        .loader-e { color: #6366F1; }
-        .loader-r { color: #0EA5E9; }
-        .loader-n { color: #0F172A; }
-        .loader-name {
-          font-family: var(--font-display);
-          font-size: 1.1rem; font-weight: 600;
-          color: var(--text3); letter-spacing: 0.4em;
-          text-transform: uppercase; margin-bottom: 2.5rem;
-        }
-        .loader-bar-track {
-          width: 320px; height: 4px;
-          background: #DBEAFE;
-          border-radius: 2px; position: relative;
-          overflow: visible; margin: 0 auto 1rem;
-        }
-        .loader-bar-fill {
-          height: 100%;
-          background: linear-gradient(90deg, var(--blue), var(--indigo), var(--sky));
-          border-radius: 2px;
-          transition: width 0.05s linear;
-          box-shadow: 0 0 14px rgba(37,99,235,0.5);
-        }
-        .loader-bar-glow {
-          position: absolute; top: -4px;
-          width: 12px; height: 12px;
-          background: var(--blue);
-          border-radius: 50%;
-          transform: translateX(-50%);
-          box-shadow: 0 0 18px var(--blue);
-        }
-        .loader-pct {
-          font-family: var(--font-code);
-          font-size: 1.1rem; font-weight: 700;
-          color: var(--blue); margin-bottom: 0.5rem;
-        }
-        .loader-msg {
-          font-size: 0.85rem; color: var(--text3);
-          font-family: var(--font-code);
-          letter-spacing: 0.1em;
-        }
-
-        /* NAVBAR */
-        nav {
-          position: fixed; top: 0; left: 0; right: 0;
-          z-index: 1000;
-          padding: 0 2rem;
-          height: 70px;
-          display: flex; align-items: center; justify-content: space-between;
-          transition: all 0.3s ease;
-          font-family: var(--font-body);
-        }
-        nav.scrolled {
-          background: rgba(248,250,255,0.93);
-          backdrop-filter: blur(20px);
-          border-bottom: 1px solid var(--border);
-          box-shadow: 0 1px 20px rgba(37,99,235,0.07);
-        }
-        .nav-logo {
-          font-family: var(--font-display);
-          font-size: 1.6rem; font-weight: 800;
-          color: var(--text); cursor: pointer;
-          text-decoration: none;
-          letter-spacing: -0.02em;
-        }
-        .nav-logo span { color: var(--blue); }
-        .nav-links { display: flex; gap: 0.25rem; list-style: none; }
-        @media (max-width: 768px) { .nav-links { display: none; } }
-        .nav-link {
-          padding: 0.5rem 1rem;
-          font-size: 0.9rem; font-weight: 600;
-          color: var(--text2);
-          cursor: pointer; border-radius: 8px;
-          transition: all 0.2s; letter-spacing: 0.02em;
-          position: relative;
-        }
-        .nav-link:hover, .nav-link.active {
-          color: var(--blue);
-          background: rgba(37,99,235,0.07);
-        }
-        .nav-link.active::after {
-          content: '';
-          position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%);
-          width: 4px; height: 4px;
-          background: var(--blue); border-radius: 50%;
-        }
-        .nav-cta {
-          padding: 0.55rem 1.4rem;
-          background: linear-gradient(135deg, var(--blue), var(--indigo));
-          color: #fff; font-weight: 700;
-          border-radius: 9px; cursor: pointer;
-          font-size: 0.9rem; transition: all 0.25s;
-          border: none; font-family: var(--font-body);
-          letter-spacing: 0.02em;
-          box-shadow: 0 4px 14px rgba(37,99,235,0.3);
-        }
-        .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(37,99,235,0.38); }
-
-        /* HAMBURGER */
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
-        @media (max-width: 768px) { .hamburger { display: flex; } }
-        .hamburger span { display: block; width: 24px; height: 2px; background: var(--blue); border-radius: 2px; transition: all 0.3s; }
-        .mobile-menu {
-          position: fixed; inset: 0;
-          background: rgba(248,250,255,0.97);
-          backdrop-filter: blur(20px);
-          display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
-          gap: 2rem; z-index: 999;
-          opacity: 0; pointer-events: none;
-          transition: opacity 0.3s;
-        }
-        .mobile-menu.open { opacity: 1; pointer-events: all; }
-        .mobile-menu-link {
-          font-family: var(--font-display);
-          font-size: 2.5rem; font-weight: 800;
-          color: var(--text2); cursor: pointer;
-          transition: color 0.2s;
-        }
-        .mobile-menu-link:hover { color: var(--blue); }
-
-        /* MAIN LAYOUT */
-        main { position: relative; z-index: 1; }
-        section { position: relative; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-
-        /* HERO */
-        #home {
-          min-height: 100vh;
-          display: flex; align-items: center;
-          padding-top: 70px;
-          background: linear-gradient(160deg, #EFF6FF 0%, #F8FAFF 50%, #F0F4FF 100%);
-        }
-        .hero-inner {
-          display: grid; grid-template-columns: 1fr auto;
-          gap: 4rem; align-items: center;
-          width: 100%;
-        }
-        @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; } }
-        .hero-greeting {
-          font-family: var(--font-code);
-          font-size: 1rem; font-weight: 500;
-          color: var(--blue);
-          letter-spacing: 0.15em;
-          margin-bottom: 1.2rem;
-          display: flex; align-items: center; gap: 0.75rem;
-        }
-        .hero-greeting::before {
-          content: ''; display: block;
-          width: 40px; height: 2px;
-          background: linear-gradient(90deg, var(--blue), var(--indigo));
-        }
-        .hero-name {
-          font-family: var(--font-display);
-          font-size: clamp(3.5rem, 5vw, 6.5rem);
-          font-weight: 800;
-          line-height: 1.0;
-          letter-spacing: -0.03em;
-          margin-bottom: 1rem;
-          color: var(--text);
-        }
-        .hero-name span {
-          background: linear-gradient(135deg, #2563EB 0%, #6366F1 50%, #0EA5E9 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .hero-role {
-          font-family: var(--font-display);
-          font-size: clamp(1.5rem, 3vw, 2.2rem);
-          font-weight: 700;
-          color: var(--text2);
-          margin-bottom: 1.5rem;
-          min-height: 2.6rem;
-        }
-        .typewriter-text { color: var(--blue); }
-        .typewriter-cursor { color: var(--blue); animation: blink 1s step-end infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
-        .hero-desc {
-          font-size: 1.05rem; font-weight: 400;
-          color: var(--text2);
-          line-height: 1.8; max-width: 540px;
-          margin-bottom: 2.5rem;
-        }
-        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
-        .btn-primary {
-          padding: 0.85rem 2rem;
-          background: linear-gradient(135deg, var(--blue), var(--indigo));
-          color: #fff; font-weight: 800;
-          border-radius: 10px; cursor: pointer;
-          font-size: 0.95rem; border: none;
-          font-family: var(--font-body);
-          transition: all 0.25s; letter-spacing: 0.03em;
-          display: flex; align-items: center; gap: 0.5rem;
-          box-shadow: 0 4px 16px rgba(37,99,235,0.28);
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37,99,235,0.4); }
-        .btn-secondary {
-          padding: 0.85rem 2rem;
-          background: #fff;
-          color: var(--text);
-          border: 1.5px solid var(--border);
-          border-radius: 10px; cursor: pointer;
-          font-size: 0.95rem; font-weight: 700;
-          font-family: var(--font-body);
-          transition: all 0.25s; letter-spacing: 0.03em;
-          display: flex; align-items: center; gap: 0.5rem;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .btn-secondary:hover {
-          border-color: var(--blue2);
-          color: var(--blue);
-          transform: translateY(-2px);
-          box-shadow: 0 6px 18px rgba(37,99,235,0.12);
-        }
-        .hero-social { display: flex; gap: 1rem; }
-        .social-icon {
-          width: 42px; height: 42px;
-          border: 1.5px solid var(--border);
-          border-radius: 10px;
-          display: flex; align-items: center; justify-content: center;
-          color: var(--text3); font-size: 1rem;
-          cursor: pointer; transition: all 0.25s;
-          text-decoration: none; background: #fff;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .social-icon:hover {
-          border-color: var(--blue2);
-          color: var(--blue);
-          background: rgba(37,99,235,0.06);
-          transform: translateY(-3px);
-          box-shadow: 0 6px 16px rgba(37,99,235,0.14);
-        }
-        .hero-avatar-wrap { position: relative; }
-        .hero-avatar {
-          width: 340px; height: 340px;
-          border-radius: 50%;
-          background: transparent;
-          border: 2px solid var(--border2);
-          display: flex; align-items: center; justify-content: center;
-          position: relative; overflow: hidden;
-          flex-shrink: 0;
-          box-shadow: 0 20px 60px rgba(37,99,235,0.12);
-        }
-        @media (max-width: 900px) { .hero-avatar { width: 260px; height: 260px; } }
-        .avatar-inner { width: 100%; height: 100%; }
-        .hero-avatar::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: radial-gradient(circle at 70% 30%, rgba(37,99,235,0.08), transparent 60%),
-                      radial-gradient(circle at 30% 80%, rgba(99,102,241,0.06), transparent 60%);
-        }
-        .avatar-ring {
-          position: absolute; border-radius: 50%;
-          border: 1.5px solid rgba(37,99,235,0.2);
-          animation: spin-ring linear infinite;
-        }
-        .avatar-ring-1 { width: 390px; height: 390px; top: -27px; left: -27px; animation-duration: 22s; }
-        .avatar-ring-2 { width: 445px; height: 445px; top: -53px; left: -53px; animation-duration: 34s; animation-direction: reverse; border-color: rgba(99,102,241,0.14); }
-        @keyframes spin-ring { to { transform: rotate(360deg); } }
-        .avatar-badge {
-          position: absolute;
-          background: #fff;
-          border: 1.5px solid var(--border);
-          border-radius: 12px; padding: 0.6rem 1rem;
-          display: flex; align-items: center; gap: 0.5rem;
-          font-size: 0.8rem; font-weight: 700;
-          backdrop-filter: blur(10px); white-space: nowrap;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-          color: var(--text);
-        }
-        .avatar-badge-1 { top: -16px; right: -20px; }
-        .avatar-badge-2 { bottom: -16px; left: -20px; }
-        .badge-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .badge-dot-green { background: #22C55E; box-shadow: 0 0 8px #22C55E; }
-        .badge-dot-blue { background: var(--blue2); box-shadow: 0 0 8px var(--blue2); }
-        .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; flex-wrap: wrap; }
-        .hero-stat { text-align: center; }
-        .hero-stat-value {
-          font-family: var(--font-display);
-          font-size: 2rem; font-weight: 800;
-          background: linear-gradient(135deg, var(--blue), var(--indigo));
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-          line-height: 1;
-        }
-        .hero-stat-label {
-          font-size: 0.78rem; color: var(--text3);
-          font-weight: 500; margin-top: 0.25rem;
-          text-transform: uppercase; letter-spacing: 0.08em;
-        }
-        .hero-scroll {
-          position: absolute; bottom: 2.5rem; left: 50%;
-          transform: translateX(-50%);
-          display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-          cursor: pointer; opacity: 0.55;
-        }
-        .scroll-text { font-size: 0.72rem; color: var(--text3); letter-spacing: 0.15em; text-transform: uppercase; font-family: var(--font-code); }
-        .scroll-arrow {
-          width: 24px; height: 24px;
-          border: 1.5px solid var(--text3); border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
-          animation: bounce 1.5s ease infinite;
-          color: var(--text3); font-size: 0.65rem;
-        }
-        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
-
-        /* SECTION HEADER */
-        .section-header { text-align: center; margin-bottom: 4rem; opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.4,0,0.2,1); }
-        .section-header.visible { opacity: 1; transform: translateY(0); }
-        .section-tag { font-family: var(--font-code); font-size: 0.8rem; font-weight: 600; color: var(--blue); text-transform: uppercase; letter-spacing: 0.2em; display: block; margin-bottom: 0.75rem; }
-        .section-title { font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 1rem; color: var(--text); }
-        .section-subtitle { font-size: 1rem; color: var(--text2); max-width: 500px; margin: 0 auto 1.5rem; line-height: 1.7; }
-        .section-line { display: flex; justify-content: center; }
-        .section-line-inner { width: 60px; height: 3px; background: linear-gradient(90deg, var(--blue), var(--indigo)); border-radius: 2px; }
-
-        /* ABOUT */
-        #about { padding: 7rem 0; background: #fff; }
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-        @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } }
-        .about-img-wrap { position: relative; }
-        .about-img-wrap img { width: 100%; border-radius: 22px; object-fit: cover; border: 2px solid var(--border2); box-shadow: 0 16px 48px rgba(37,99,235,0.1); }
-        .about-accent { position: absolute; width: 180px; height: 180px; border-radius: 20px; background: linear-gradient(135deg, rgba(37,99,235,0.1), rgba(99,102,241,0.07)); border: 1.5px solid rgba(37,99,235,0.15); bottom: -24px; right: -24px; z-index: -1; }
-        .about-intro { font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; margin-bottom: 1.25rem; line-height: 1.3; color: var(--text); }
-        .about-intro span { background: linear-gradient(135deg, #2563EB, #6366F1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .about-para { color: var(--text2); font-size: 0.97rem; line-height: 1.85; margin-bottom: 1rem; }
-        .about-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
-        .about-highlight { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: var(--text2); font-weight: 500; }
-        .about-highlight i { color: var(--blue); font-size: 0.85rem; }
-        .about-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
-
-        /* SKILLS */
-        #skills { padding: 7rem 0; background: var(--bg2); }
-        .skills-tabs { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap; }
-        .skills-tab {
-          padding: 0.6rem 1.4rem; border-radius: 8px;
-          font-size: 0.88rem; font-weight: 700; cursor: pointer;
-          transition: all 0.2s; border: 1.5px solid var(--border);
-          font-family: var(--font-body); color: var(--text3); background: #fff;
-        }
-        .skills-tab.active { border-color: var(--blue); color: var(--blue); background: rgba(37,99,235,0.06); }
-        .skills-tab:hover:not(.active) { border-color: var(--blue3); color: var(--text2); }
-        .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        @media (max-width: 640px) { .skills-grid { grid-template-columns: 1fr; } }
-        .skill-bar-item {
-          opacity: 0; transform: translateX(-20px);
-          animation: slideIn 0.6s forwards;
-          background: #fff; border: 1px solid var(--border);
-          border-radius: 12px; padding: 1rem 1rem 0.85rem;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
-        .skill-bar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.55rem; }
-        .skill-name { font-size: 0.88rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 0.6rem; }
-        .skill-icon { font-size: 0.85rem; width: 16px; }
-        .skill-level { font-family: var(--font-code); font-size: 0.82rem; font-weight: 700; }
-        .skill-bar-track { height: 6px; border-radius: 3px; background: var(--bg3); overflow: hidden; border: 1px solid var(--border); }
-        .skill-bar-fill { height: 100%; border-radius: 3px; }
-
-        /* PROJECTS */
-        #projects { padding: 7rem 0; background: var(--bg); }
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem; }
-        @media (max-width: 640px) { .projects-grid { grid-template-columns: 1fr; } }
-        .project-card {
-          background: #fff; border-radius: 20px;
-          border: 1.5px solid var(--border);
-          position: relative; overflow: hidden;
-          opacity: 0; transform: translateY(30px);
-          transition: all 0.6s cubic-bezier(0.4,0,0.2,1), border-color 0.3s, box-shadow 0.3s, background 0.3s;
-          cursor: default;
-        }
-        .project-card.visible { opacity: 1; transform: translateY(0); }
-        .project-card::before {
-          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-          background: var(--card-color, var(--blue));
-          opacity: 0.5; transition: opacity 0.3s;
-        }
-        .project-card:hover::before { opacity: 1; }
-        .featured-badge {
-          position: absolute; top: 1rem; right: 1rem;
-          background: rgba(255,255,255,0.9);
-          border: 1px solid #FEF3C7; color: #D97706;
-          font-size: 0.72rem; font-weight: 700;
-          padding: 0.25rem 0.7rem; border-radius: 20px;
-          backdrop-filter: blur(8px); letter-spacing: 0.05em;
-          box-shadow: 0 2px 8px rgba(217,119,6,0.12);
-        }
-        .project-card-inner { padding: 1.8rem; }
-        .project-icon-wrap { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; }
-        .project-title { font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; margin-bottom: 0.25rem; letter-spacing: -0.01em; }
-        .project-subtitle { font-size: 0.82rem; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.9rem; }
-        .project-desc { font-size: 0.88rem; color: var(--text2); line-height: 1.75; margin-bottom: 1rem; }
-        .project-stats { display: flex; gap: 1.2rem; margin-bottom: 1rem; }
-        .project-stats span { font-size: 0.8rem; color: var(--text3); display: flex; align-items: center; gap: 0.35rem; font-family: var(--font-code); }
-        .tech-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.4rem; }
-        .tech-tag { padding: 0.25rem 0.7rem; font-size: 0.73rem; font-weight: 600; border-radius: 6px; border: 1px solid; font-family: var(--font-code); }
-        .project-links { display: flex; gap: 0.75rem; }
-        .proj-btn { padding: 0.55rem 1.1rem; border-radius: 8px; border: 1.5px solid; font-size: 0.82rem; font-weight: 700; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: all 0.2s; font-family: var(--font-body); }
-        .proj-btn:hover { transform: translateY(-1px); opacity: 0.88; }
-        .proj-btn-filled { border-color: transparent !important; }
-
-        /* EXPERIENCE */
-        #experience { padding: 7rem 0; background: #fff; }
-        .exp-timeline { position: relative; }
-        .exp-card { display: grid; grid-template-columns: auto 1fr; gap: 0; margin-bottom: 1.5rem; opacity: 0; transform: translateX(-30px); transition: all 0.6s cubic-bezier(0.4,0,0.2,1); position: relative; }
-        .exp-card.visible { opacity: 1; transform: translateX(0); }
-        .exp-line { width: 2px; margin: 0 2rem; min-height: 100%; border-radius: 2px; opacity: 0.45; }
-        .exp-icon { position: absolute; left: 1.4rem; top: 1.8rem; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; transform: translateX(-50%); z-index: 2; flex-shrink: 0; }
-        .exp-content { background: var(--bg2); border: 1.5px solid var(--border); border-radius: 18px; padding: 1.8rem; margin-left: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
-        .exp-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.9rem; flex-wrap: wrap; }
-        .exp-role { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; letter-spacing: -0.01em; }
-        .exp-company { font-size: 0.9rem; color: var(--text2); font-weight: 600; margin-top: 0.15rem; }
-        .exp-meta { text-align: right; }
-        .exp-period { display: block; font-family: var(--font-code); font-size: 0.78rem; color: var(--text3); font-weight: 600; margin-bottom: 0.4rem; }
-        .exp-type { font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.65rem; background: rgba(37,99,235,0.07); border: 1px solid var(--border2); border-radius: 20px; color: var(--blue); text-transform: uppercase; letter-spacing: 0.08em; }
-        .exp-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.75; margin-bottom: 1rem; }
-        .exp-achievements { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .achievement-tag { padding: 0.3rem 0.8rem; border: 1px solid; border-radius: 20px; font-size: 0.76rem; font-weight: 700; display: flex; align-items: center; gap: 0.35rem; font-family: var(--font-code); }
-
-        /* STATS SECTION */
-        #stats { padding: 5rem 0; background: linear-gradient(135deg, #EFF6FF, #EEF2FF); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
-        @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-        .stat-card {
-          text-align: center; padding: 2.5rem 1.5rem;
-          background: #fff; border-radius: 18px;
-          border: 1.5px solid var(--border); transition: all 0.3s;
-          position: relative; overflow: hidden;
-          box-shadow: 0 4px 18px rgba(37,99,235,0.07);
-        }
-        .stat-card:hover { transform: translateY(-4px); border-color: var(--blue3); box-shadow: 0 12px 32px rgba(37,99,235,0.13); }
-        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--indigo)); }
-        .stat-icon { font-size: 1.8rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--blue), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .stat-value { font-family: var(--font-display); font-size: 2.8rem; font-weight: 800; background: linear-gradient(135deg, var(--blue), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; margin-bottom: 0.5rem; }
-        .stat-label { font-size: 0.82rem; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
-
-        /* CONTACT */
-        #contact { padding: 7rem 0; background: var(--bg2); }
-        .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start; }
-        @media (max-width: 900px) { .contact-grid { grid-template-columns: 1fr; } }
-        .contact-info h3 { font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -0.02em; color: var(--text); }
-        .contact-info p { color: var(--text2); line-height: 1.8; margin-bottom: 2.5rem; }
-        .contact-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
-        .contact-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; background: #fff; border: 1.5px solid var(--border); border-radius: 14px; transition: all 0.25s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .contact-item:hover { border-color: var(--blue3); transform: translateX(4px); box-shadow: 0 4px 16px rgba(37,99,235,0.1); }
-        .contact-item-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(37,99,235,0.08); display: flex; align-items: center; justify-content: center; color: var(--blue); flex-shrink: 0; }
-        .contact-item-label { font-size: 0.75rem; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
-        .contact-item-value { font-size: 0.9rem; color: var(--text); font-weight: 600; }
-        .contact-socials { display: flex; gap: 0.75rem; }
-        .contact-social { width: 44px; height: 44px; border: 1.5px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--text3); font-size: 1rem; text-decoration: none; transition: all 0.25s; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
-        .contact-social:hover { border-color: var(--blue2); color: var(--blue); background: rgba(37,99,235,0.06); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(37,99,235,0.14); }
-        .contact-form { background: #fff; border: 1.5px solid var(--border); border-radius: 24px; padding: 2.5rem; box-shadow: 0 8px 30px rgba(37,99,235,0.07); }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-        .form-group { margin-bottom: 1.25rem; }
-        .form-label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--text2); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.08em; font-family: var(--font-code); }
-        .form-input, .form-textarea { width: 100%; background: var(--bg2); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: var(--font-body); font-size: 0.92rem; font-weight: 500; padding: 0.75rem 1rem; transition: all 0.2s; outline: none; }
-        .form-input:focus, .form-textarea:focus { border-color: var(--blue2); background: #fff; box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
-        .form-textarea { resize: vertical; min-height: 130px; }
-        .form-submit { width: 100%; padding: 0.9rem; background: linear-gradient(135deg, var(--blue), var(--indigo)); color: #fff; font-weight: 800; font-size: 0.95rem; border: none; border-radius: 10px; cursor: pointer; font-family: var(--font-body); letter-spacing: 0.04em; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 16px rgba(37,99,235,0.28); }
-        .form-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37,99,235,0.38); }
-        .form-submit:disabled { opacity: 0.7; cursor: not-allowed; }
-        .form-success { text-align: center; padding: 1rem; color: #16A34A; font-weight: 700; background: #F0FDF4; border-radius: 10px; margin-top: 1rem; border: 1px solid #BBF7D0; font-size: 0.9rem; }
-
-        /* FOOTER */
-        footer { padding: 3rem 0; background: #fff; border-top: 1px solid var(--border); }
-        .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
-        .footer-logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; }
-        .footer-logo span { color: var(--blue); }
-        .footer-copy { font-size: 0.85rem; color: var(--text3); }
-        .footer-copy span { color: var(--blue); }
-        .footer-links { display: flex; gap: 1rem; }
-        .footer-link { font-size: 0.85rem; color: var(--text3); text-decoration: none; transition: color 0.2s; font-weight: 500; }
-        .footer-link:hover { color: var(--blue); }
-
-        /* BACK TO TOP */
-        .back-to-top { position: fixed; bottom: 2rem; right: 2rem; width: 44px; height: 44px; background: linear-gradient(135deg, var(--blue), var(--indigo)); color: #fff; border: none; border-radius: 12px; cursor: pointer; z-index: 500; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.25s; box-shadow: 0 6px 20px rgba(37,99,235,0.32); }
-        .back-to-top:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(37,99,235,0.4); }
-
-        /* GRID PATTERN */
-        .grid-pattern {
-          position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background-image: radial-gradient(circle, #BFDBFE 1px, transparent 1px);
-          background-size: 30px 30px;
-          opacity: 0.6;
-        }
-
-        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        @keyframes pulse-glow { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
-      `}</style>
-
-      {/* FONT AWESOME */}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-      <CustomCursor />
-      <ThreeBackground />
-
-      {/* NAVBAR */}
-      <nav className={scrollY > 20 ? "scrolled" : ""}>
-        <div className="nav-logo" onClick={() => scrollTo("home")}>
-          Amol<span>.</span>Dev
-        </div>
-        <ul className="nav-links">
-          {NAV_LINKS.map((n) => (
-            <li key={n} className={`nav-link ${activeNav === n ? "active" : ""}`} onClick={() => scrollTo(n)}>
-              {n}
-            </li>
-          ))}
-        </ul>
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          <button className="nav-cta" onClick={() => scrollTo("contact")}>
-            <i className="fas fa-paper-plane" style={{ marginRight: "0.4rem" }} />
-            Hire Me
-          </button>
-          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-            <span />
-            <span style={{ width: menuOpen ? "16px" : "24px" }} />
-            <span />
-          </div>
-        </div>
-      </nav>
-
-      {/* MOBILE MENU */}
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-        {NAV_LINKS.map((n) => (
-          <div key={n} className="mobile-menu-link" onClick={() => scrollTo(n)}>{n}</div>
+      <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:"1.18rem",fontWeight:800,color:"#0F172A",marginBottom:"0.18rem",letterSpacing:"-0.01em"}}>{p.title}</h3>
+      <p style={{fontSize:"0.7rem",color:"#94A3B8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:"0.7rem",fontFamily:"'JetBrains Mono',monospace"}}>{p.subtitle}</p>
+      <p style={{fontSize:"0.86rem",color:"#475569",lineHeight:1.75,marginBottom:"0.9rem"}}>{p.desc}</p>
+      <div style={{display:"flex",gap:"1.1rem",marginBottom:"0.9rem"}}>
+        {[["fas fa-star","#D97706",p.stats.stars],["fas fa-code-branch",p.accent,p.stats.forks],["fas fa-eye","#94A3B8",p.stats.views]].map(([ic,cl,vl])=>(
+          <span key={ic} style={{fontSize:"0.75rem",color:"#94A3B8",display:"flex",alignItems:"center",gap:"0.28rem",fontFamily:"'JetBrains Mono',monospace"}}><i className={ic} style={{color:cl}}/>{vl}</span>
         ))}
       </div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:"0.32rem",marginBottom:"1.25rem"}}>
+        {p.tech.map(t=><span key={t} style={{padding:"0.22rem 0.62rem",fontSize:"0.69rem",fontWeight:700,borderRadius:6,border:`1px solid ${p.accent}30`,color:p.accent,fontFamily:"'JetBrains Mono',monospace",background:`${p.accent}08`}}>{t}</span>)}
+      </div>
+      <div style={{display:"flex",gap:"0.6rem"}}>
+        <a href="#" style={{padding:"0.46rem 0.95rem",borderRadius:9,border:"1.5px solid #E2E8F0",color:"#475569",fontSize:"0.78rem",fontWeight:700,textDecoration:"none",display:"flex",alignItems:"center",gap:"0.32rem",transition:"all .2s",fontFamily:"'DM Sans',sans-serif"}}
+          onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color="#2563EB";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#475569";}}>
+          <i className="fab fa-github"/>Code
+        </a>
+        <a href="#" style={{padding:"0.46rem 0.95rem",borderRadius:9,background:p.accent,color:"#fff",fontSize:"0.78rem",fontWeight:700,textDecoration:"none",display:"flex",alignItems:"center",gap:"0.32rem",transition:"opacity .2s",fontFamily:"'DM Sans',sans-serif"}}
+          onMouseEnter={e=>e.currentTarget.style.opacity="0.85"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
+          <i className="fas fa-external-link-alt"/>Live Demo
+        </a>
+      </div>
+    </div>
+  );
+}
 
-      <main>
-        {/* HERO */}
-        <section id="home" style={{ position: "relative" }}>
-          <div className="grid-pattern" />
-          <div className="container">
-            <div className="hero-inner">
-              <div className="hero-left">
-                <div className="hero-greeting">
-                  <i className="fas fa-terminal" />
-                  Hello World! I'm
-                </div>
-                <h1 className="hero-name">
-                  Amol <span>Patil</span>
-                </h1>
-                <div className="hero-role">
-                  <Typewriter
-                    words={[
-                      "MERN Stack Developer",
-                      "Full-Stack Engineer",
-                      "MongoDB Expert",
-                      "React Architect",
-                      "Node.js Developer",
-                      "UI/UX Enthusiast",
-                    ]}
-                  />
-                </div>
-                <p className="hero-desc">
-                  Crafting high-performance, scalable web applications with the
-                  MERN stack. I turn complex problems into elegant digital
-                  experiences that serve millions of users worldwide.
-                </p>
-                <div className="hero-btns">
-                  <button className="btn-primary" onClick={() => scrollTo("projects")}>
-                    <i className="fas fa-rocket" /> View Projects
-                  </button>
-                  <button className="btn-secondary" onClick={() => scrollTo("contact")}>
-                    <i className="fas fa-envelope" /> Get In Touch
-                  </button>
-                  <a href="#" className="btn-secondary" style={{ textDecoration: "none", color: "var(--text)" }}>
-                    <i className="fas fa-download" /> Download CV
-                  </a>
-                </div>
-                <div className="hero-social">
-                  {[
-                    { icon: "fab fa-github", href: "#" },
-                    { icon: "fab fa-linkedin", href: "#" },
-                    { icon: "fab fa-twitter", href: "#" },
-                    { icon: "fab fa-dev", href: "#" },
-                    { icon: "fab fa-npm", href: "#" },
-                  ].map((s) => (
-                    <a key={s.icon} href={s.href} className="social-icon">
-                      <i className={s.icon} />
-                    </a>
-                  ))}
-                </div>
-                <div className="hero-stats">
-                  {STATS.map((s) => (
-                    <div key={s.label} className="hero-stat">
-                      <div className="hero-stat-value">{s.value}</div>
-                      <div className="hero-stat-label">{s.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+// ─── EXP CARD ────────────────────────────────────────────────
 
-              <div className="hero-avatar-wrap">
-                <div className="avatar-ring avatar-ring-1">
-                  <span style={{ position: "absolute", top: "10%", left: "5%", color: "rgba(37,99,235,0.5)", fontSize: "0.7rem" }}>
-                    <i className="fas fa-circle" />
-                  </span>
-                  <span style={{ position: "absolute", bottom: "15%", right: "8%", color: "rgba(99,102,241,0.5)", fontSize: "0.6rem" }}>
-                    <i className="fas fa-circle" />
-                  </span>
-                </div>
-                <div className="avatar-ring avatar-ring-2" />
-                <div className="hero-avatar">
-                  <div className="avatar-inner">
-                    <img
-                      src="https://i.pinimg.com/originals/81/17/8b/81178b47a8598f0c81c4799f2cdd4057.gif"
-                      alt="Avatar"
-                      style={{ width: "110%", height: "110%", borderRadius: "50%", objectFit: "cover" }}
-                    />
-                  </div>
-                </div>
-                <div className="avatar-badge avatar-badge-1">
-                  <div className="badge-dot badge-dot-green" />
-                  <span style={{ fontSize: "0.75rem" }}>Available for Work</span>
-                </div>
-                <div className="avatar-badge avatar-badge-2">
-                  <div className="badge-dot badge-dot-blue" />
-                  <span style={{ fontSize: "0.75rem" }}>Open Source Contributor</span>
-                </div>
+function ExpCard({e,i}){
+  const [ref,v]=useReveal(0.1);
+  return(
+    <div ref={ref} style={{display:"grid",gridTemplateColumns:"auto 1fr",gap:"0 1.25rem",marginBottom:"1.4rem",opacity:v?1:0,transform:v?"translateX(0)":"translateX(-20px)",transition:`all .56s cubic-bezier(.4,0,.2,1) ${i*110}ms`}}>
+      <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+        <div style={{width:40,height:40,borderRadius:12,background:`${e.accent}14`,border:`1.5px solid ${e.accent}50`,display:"flex",alignItems:"center",justifyContent:"center",color:e.accent,fontSize:"0.95rem",flexShrink:0}}><i className={e.icon}/></div>
+        {i<EXP.length-1&&<div style={{flex:1,width:2,background:`linear-gradient(${e.accent}55,transparent)`,marginTop:6,minHeight:32}}/>}
+      </div>
+      <div style={{background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:18,padding:"1.5rem",boxShadow:"0 2px 12px rgba(0,0,0,0.04)"}}>
+        <div style={{display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:"0.65rem",marginBottom:"0.7rem"}}>
+          <div>
+            <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:"1.08rem",fontWeight:800,color:e.accent,letterSpacing:"-0.01em",marginBottom:"0.16rem"}}>{e.role}</h3>
+            <p style={{fontSize:"0.86rem",color:"#64748B",fontWeight:600}}>{e.company}</p>
+          </div>
+          <div style={{textAlign:"right"}}>
+            <span style={{display:"block",fontFamily:"'JetBrains Mono',monospace",fontSize:"0.72rem",color:"#94A3B8",marginBottom:"0.3rem"}}><i className="fas fa-calendar" style={{marginRight:"0.3rem"}}/>{e.period}</span>
+            <span style={{fontSize:"0.67rem",fontWeight:700,padding:"0.16rem 0.55rem",borderRadius:20,background:"#F1F5F9",color:"#64748B",textTransform:"uppercase",letterSpacing:"0.08em"}}>{e.type}</span>
+          </div>
+        </div>
+        <p style={{fontSize:"0.86rem",color:"#475569",lineHeight:1.8,marginBottom:"0.9rem"}}>{e.desc}</p>
+        <div style={{display:"flex",flexWrap:"wrap",gap:"0.4rem"}}>
+          {e.wins.map(w=><span key={w} style={{padding:"0.26rem 0.72rem",border:`1px solid ${e.accent}35`,borderRadius:20,fontSize:"0.72rem",fontWeight:700,color:e.accent,display:"flex",alignItems:"center",gap:"0.28rem",fontFamily:"'JetBrains Mono',monospace",background:`${e.accent}07`}}><i className="fas fa-check-circle"/>{w}</span>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── SECTION HEADER ──────────────────────────────────────────
+
+function SecHead({tag,title,sub}){
+  const [ref,v]=useReveal(0.3);
+  return(
+    <div ref={ref} style={{textAlign:"center",marginBottom:"3.2rem",opacity:v?1:0,transform:v?"translateY(0)":"translateY(22px)",transition:"all .65s cubic-bezier(.4,0,.2,1)"}}>
+      <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"0.7rem",fontWeight:600,color:"#3B82F6",letterSpacing:"0.25em",textTransform:"uppercase",display:"block",marginBottom:"0.65rem"}}>{tag}</span>
+      <h2 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(1.9rem,4vw,2.9rem)",fontWeight:800,letterSpacing:"-0.03em",color:"#0F172A",marginBottom:"0.75rem",lineHeight:1.1}}>{title}</h2>
+      {sub&&<p style={{color:"#64748B",fontSize:"0.95rem",maxWidth:440,margin:"0 auto 1.1rem",lineHeight:1.8}}>{sub}</p>}
+      <div style={{display:"flex",justifyContent:"center"}}>
+        <div style={{width:44,height:3,background:"linear-gradient(90deg,#2563EB,#6366F1)",borderRadius:2}}/>
+      </div>
+    </div>
+  );
+}
+
+// ─── LOADER ──────────────────────────────────────────────────
+
+function Loader({onDone}){
+  const [pct,sp]=useState(0);
+  useEffect(()=>{
+    let v=0;
+    const t=setInterval(()=>{
+      v+=Math.random()*7+2;
+      if(v>=100){v=100;clearInterval(t);setTimeout(onDone,500);}
+      sp(Math.floor(Math.min(v,100)));
+    },55);
+    return()=>clearInterval(t);
+  },[]);
+  return(
+    <div style={{position:"fixed",inset:0,background:"linear-gradient(135deg,#EFF6FF 0%,#F0F4FF 50%,#EFF6FF 100%)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:99999,flexDirection:"column",gap:"1.6rem"}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontSize:"4.5rem",fontWeight:800,letterSpacing:"-0.04em",lineHeight:1}}>
+        {["M","E","R","N"].map((l,i)=><span key={l} style={{color:["#2563EB","#6366F1","#0EA5E9","#0F172A"][i]}}>{l}</span>)}
+      </div>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"0.72rem",letterSpacing:"0.38em",color:"#94A3B8",textTransform:"uppercase"}}>Alex Johnson · Portfolio</div>
+      <div style={{width:280,height:3,background:"#E2E8F0",borderRadius:2,position:"relative",overflow:"hidden"}}>
+        <div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,#2563EB,#6366F1,#0EA5E9)",width:`${pct}%`,transition:"width .05s linear",borderRadius:2,boxShadow:"0 0 12px rgba(37,99,235,0.4)"}}/>
+      </div>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"0.74rem",color:"#94A3B8",letterSpacing:"0.08em"}}>{pct}% — {pct<30?"Initializing…":pct<65?"Loading portfolio…":pct<90?"Rendering…":"Welcome!"}</div>
+    </div>
+  );
+}
+
+// ─── CURSOR ──────────────────────────────────────────────────
+
+function Cursor(){
+  const dot=useRef(null),ring=useRef(null),rp=useRef({x:0,y:0}),dp=useRef({x:0,y:0});
+  useEffect(()=>{
+    const mv=e=>{dp.current={x:e.clientX,y:e.clientY};if(dot.current)dot.current.style.transform=`translate(${e.clientX}px,${e.clientY}px)`;};
+    window.addEventListener("mousemove",mv);
+    let af;
+    const lp=()=>{rp.current.x+=(dp.current.x-rp.current.x)*.1;rp.current.y+=(dp.current.y-rp.current.y)*.1;if(ring.current)ring.current.style.transform=`translate(${rp.current.x}px,${rp.current.y}px)`;af=requestAnimationFrame(lp);};
+    lp();
+    return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(af);};
+  },[]);
+  return(<>
+    <div ref={dot}  style={{position:"fixed",top:-5,left:-5,width:10,height:10,borderRadius:"50%",background:"#2563EB",pointerEvents:"none",zIndex:9999,willChange:"transform"}}/>
+    <div ref={ring} style={{position:"fixed",top:-18,left:-18,width:36,height:36,borderRadius:"50%",border:"1.5px solid rgba(37,99,235,0.4)",pointerEvents:"none",zIndex:9998,willChange:"transform"}}/>
+  </>);
+}
+
+// ─── MAIN ────────────────────────────────────────────────────
+
+export default function Portfolio(){
+  const [loaded,sl]=useState(false);
+  const [sy,sSy]=useState(0);
+  const [aN,sAN]=useState("Home");
+  const [mOpen,sMO]=useState(false);
+  const [sTab,sST]=useState("Frontend");
+  const [form,sF]=useState({name:"",email:"",subject:"",message:""});
+  const [fSt,sFSt]=useState("");
+
+  useEffect(()=>{
+    const fn=()=>{
+      sSy(window.scrollY);
+      NAV.forEach(n=>{const el=document.getElementById(n.toLowerCase());if(el&&window.scrollY>=el.offsetTop-130)sAN(n);});
+    };
+    window.addEventListener("scroll",fn);
+    return()=>window.removeEventListener("scroll",fn);
+  },[]);
+
+  const go=id=>{document.getElementById(id.toLowerCase())?.scrollIntoView({behavior:"smooth"});sMO(false);};
+  const submit=e=>{e.preventDefault();sFSt("sending");setTimeout(()=>{sFSt("sent");sF({name:"",email:"",subject:"",message:""});},2000);};
+
+  const BP={padding:"0.78rem 1.75rem",background:"linear-gradient(135deg,#2563EB,#6366F1)",color:"#fff",border:"none",borderRadius:10,fontWeight:800,fontSize:"0.88rem",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",letterSpacing:"0.02em",display:"inline-flex",alignItems:"center",gap:"0.42rem",transition:"all .24s",boxShadow:"0 6px 20px rgba(37,99,235,0.25)",textDecoration:"none"};
+  const BO={padding:"0.78rem 1.75rem",background:"#fff",border:"1.5px solid #E2E8F0",color:"#374151",borderRadius:10,fontWeight:700,fontSize:"0.88rem",cursor:"pointer",fontFamily:"'DM Sans',sans-serif",letterSpacing:"0.02em",display:"inline-flex",alignItems:"center",gap:"0.42rem",transition:"all .24s",textDecoration:"none",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"};
+  const IN={width:"100%",background:"#F8FAFF",border:"1.5px solid #E2E8F0",borderRadius:10,color:"#0F172A",fontFamily:"'DM Sans',sans-serif",fontSize:"0.9rem",fontWeight:500,padding:"0.72rem 0.95rem",outline:"none",transition:"all .2s"};
+  const LB={display:"block",fontSize:"0.7rem",fontWeight:700,color:"#64748B",marginBottom:"0.42rem",textTransform:"uppercase",letterSpacing:"0.12em",fontFamily:"'JetBrains Mono',monospace"};
+
+  if(!loaded)return<Loader onDone={()=>sl(true)}/>;
+
+  return(<>
+    {/* FONTS + FA */}
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+    <style>{`
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      html{scroll-behavior:smooth}
+      body{font-family:'DM Sans',sans-serif;background:#F8FAFF;color:#0F172A;overflow-x:hidden;cursor:none;min-height:100vh;}
+      ::-webkit-scrollbar{width:3px}
+      ::-webkit-scrollbar-track{background:#F1F5F9}
+      ::-webkit-scrollbar-thumb{background:linear-gradient(#2563EB,#6366F1);border-radius:2px}
+      @keyframes cursorBlink{50%{opacity:0}}
+      @keyframes blobFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.03)}}
+      @keyframes floatIcon{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+      @keyframes spin{to{transform:rotate(360deg)}}
+      @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+      @keyframes slideUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+      section{position:relative}
+      .C{max-width:1160px;margin:0 auto;padding:0 2rem}
+      @media(max-width:960px){.hg{grid-template-columns:1fr!important}.hav{display:none!important}.ag{grid-template-columns:1fr!important}.cg{grid-template-columns:1fr!important}}
+      @media(max-width:768px){.dn{display:none!important}.hb{display:flex!important}.sg{grid-template-columns:repeat(2,1fr)!important}.skg{grid-template-columns:1fr!important}}
+      @media(max-width:600px){.pg{grid-template-columns:1fr!important}.fr{grid-template-columns:1fr!important}}
+    `}</style>
+
+    <Cursor/>
+
+    {/* ═══ NAVBAR ═══════════════════════════════════════════════ */}
+    <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:1000,height:66,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 2.5rem",background:sy>20?"rgba(248,250,255,0.94)":"transparent",backdropFilter:sy>20?"blur(20px)":"none",borderBottom:sy>20?"1px solid rgba(226,232,240,0.8)":"none",transition:"all .3s"}}>
+      <div onClick={()=>go("home")} style={{fontFamily:"'Syne',sans-serif",fontSize:"1.45rem",fontWeight:800,color:"#0F172A",cursor:"pointer",letterSpacing:"-0.02em"}}>
+        Alex<span style={{color:"#2563EB"}}>.</span>dev
+      </div>
+      <ul className="dn" style={{display:"flex",gap:"0.1rem",listStyle:"none"}}>
+        {NAV.map(n=>(
+          <li key={n} onClick={()=>go(n)} style={{padding:"0.42rem 0.9rem",fontSize:"0.85rem",fontWeight:600,color:aN===n?"#2563EB":"#475569",cursor:"pointer",borderRadius:8,transition:"all .2s",background:aN===n?"rgba(37,99,235,0.06)":"transparent"}}>
+            {n}
+          </li>
+        ))}
+      </ul>
+      <div style={{display:"flex",gap:"0.75rem",alignItems:"center"}}>
+        <button onClick={()=>go("contact")} style={{...BP,padding:"0.52rem 1.15rem",fontSize:"0.82rem"}} onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"} onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}>
+          <i className="fas fa-paper-plane"/>Hire Me
+        </button>
+        <div className="hb" onClick={()=>sMO(!mOpen)} style={{display:"none",flexDirection:"column",gap:5,cursor:"pointer"}}>
+          {[0,1,2].map(i=><span key={i} style={{width:22,height:2,background:"#475569",display:"block",borderRadius:1}}/>)}
+        </div>
+      </div>
+    </nav>
+
+    {/* Mobile menu */}
+    <div style={{position:"fixed",inset:0,background:"rgba(248,250,255,0.97)",backdropFilter:"blur(20px)",zIndex:999,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:"1.8rem",opacity:mOpen?1:0,pointerEvents:mOpen?"all":"none",transition:"opacity .3s"}}>
+      <div onClick={()=>sMO(false)} style={{position:"absolute",top:"1.5rem",right:"2rem",color:"#94A3B8",fontSize:"1.4rem",cursor:"pointer"}}><i className="fas fa-times"/></div>
+      {NAV.map(n=><div key={n} onClick={()=>go(n)} style={{fontFamily:"'Syne',sans-serif",fontSize:"2rem",fontWeight:800,color:"#475569",cursor:"pointer",transition:"color .2s"}} onMouseEnter={e=>e.currentTarget.style.color="#2563EB"} onMouseLeave={e=>e.currentTarget.style.color="#475569"}>{n}</div>)}
+    </div>
+
+    {/* ═══ HERO ══════════════════════════════════════════════════ */}
+    <section id="home" style={{minHeight:"100vh",display:"flex",alignItems:"center",paddingTop:66,position:"relative",background:"linear-gradient(160deg,#EFF6FF 0%,#F8FAFF 45%,#F0F4FF 100%)"}}>
+      <HeroBlob/>
+      <div className="C hg" style={{width:"100%",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"3rem",alignItems:"center",position:"relative",zIndex:1}}>
+
+        {/* LEFT */}
+        <div style={{animation:"slideUp .8s ease both"}}>
+          <div style={{display:"inline-flex",alignItems:"center",gap:"0.55rem",background:"rgba(37,99,235,0.08)",border:"1px solid rgba(37,99,235,0.18)",borderRadius:20,padding:"0.35rem 1rem",marginBottom:"1.4rem"}}>
+            <span style={{width:7,height:7,borderRadius:"50%",background:"#22C55E",boxShadow:"0 0 8px #22C55E",animation:"pulse 1.5s ease infinite",display:"inline-block"}}/>
+            <span style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"0.72rem",fontWeight:700,color:"#2563EB",letterSpacing:"0.12em"}}>AVAILABLE FOR WORK</span>
+          </div>
+
+          <h1 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(2.8rem,6vw,5.2rem)",fontWeight:800,lineHeight:1.0,letterSpacing:"-0.04em",color:"#0F172A",marginBottom:"0.9rem"}}>
+            Alex<br/>
+            <span style={{background:"linear-gradient(135deg,#2563EB 0%,#6366F1 60%,#0EA5E9 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Johnson</span>
+          </h1>
+
+          <div style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(1.1rem,2.2vw,1.6rem)",fontWeight:700,color:"#475569",marginBottom:"1.4rem",minHeight:"2rem"}}>
+            <TW words={["MERN Stack Developer","Full-Stack Engineer","MongoDB Expert","React Architect","Node.js Developer","Cloud Solutions Architect"]}/>
+          </div>
+
+          <p style={{fontSize:"0.97rem",color:"#64748B",lineHeight:1.88,maxWidth:500,marginBottom:"2.2rem",fontWeight:400}}>
+            Crafting high-performance, scalable web applications with the MERN stack. Transforming complex problems into elegant digital experiences that serve{" "}
+            <strong style={{color:"#1D4ED8",fontWeight:700}}>millions of users</strong> worldwide.
+          </p>
+
+          <div style={{display:"flex",gap:"0.75rem",flexWrap:"wrap",marginBottom:"2.2rem"}}>
+            <button onClick={()=>go("projects")} style={BP} onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 12px 28px rgba(37,99,235,0.35)";}} onMouseLeave={e=>{e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="0 6px 20px rgba(37,99,235,0.25)";}}>
+              <i className="fas fa-rocket"/>View Projects
+            </button>
+            <button onClick={()=>go("contact")} style={BO} onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color="#2563EB";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#374151";}}>
+              <i className="fas fa-envelope"/>Get In Touch
+            </button>
+            <a href="#" style={BO} onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color="#2563EB";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#374151";}}>
+              <i className="fas fa-download"/>Download CV
+            </a>
+          </div>
+
+          {/* Socials */}
+          <div style={{display:"flex",gap:"0.5rem"}}>
+            {[["fab fa-github","#0F172A"],["fab fa-linkedin","#0077B5"],["fab fa-twitter","#1DA1F2"],["fab fa-dev","#0F172A"],["fab fa-npm","#CC3534"]].map(([ic,hc])=>(
+              <a key={ic} href="#" style={{width:40,height:40,background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",color:"#64748B",fontSize:"0.9rem",textDecoration:"none",transition:"all .22s",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}
+                onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color=hc;e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 6px 16px rgba(37,99,235,0.12)";}}
+                onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#64748B";e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)";}}><i className={ic}/></a>
+            ))}
+          </div>
+
+          {/* Mini stats */}
+          <div style={{display:"flex",gap:"2.2rem",marginTop:"2.6rem",paddingTop:"1.8rem",borderTop:"1px solid #E2E8F0",flexWrap:"wrap"}}>
+            {STATS_DATA.map(s=>(
+              <div key={s.label}>
+                <div style={{fontFamily:"'Syne',sans-serif",fontSize:"1.8rem",fontWeight:800,background:"linear-gradient(135deg,#1D4ED8,#6366F1)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",lineHeight:1}}>{s.val}</div>
+                <div style={{fontSize:"0.68rem",color:"#94A3B8",fontWeight:700,marginTop:"0.15rem",textTransform:"uppercase",letterSpacing:"0.09em"}}>{s.label}</div>
               </div>
+            ))}
+          </div>
+        </div>
+
+        {/* RIGHT — animated code SVG avatar */}
+        <div className="hav" style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"1.25rem",animation:"slideUp .9s .15s ease both"}}>
+          <CodeAvatar/>
+
+          {/* Floating badges below editor */}
+          <div style={{display:"flex",gap:"0.75rem",flexWrap:"wrap",justifyContent:"center"}}>
+            {[["fas fa-star","#D97706","4.9 / 5.0 Rating"],["fas fa-check-circle","#16A34A","100% Job Success"],["fas fa-bolt","#2563EB","Fast Delivery"]].map(([ic,cl,lb])=>(
+              <div key={lb} style={{display:"flex",alignItems:"center",gap:"0.45rem",background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:20,padding:"0.38rem 0.85rem",boxShadow:"0 2px 10px rgba(0,0,0,0.05)",fontSize:"0.76rem",fontWeight:700,color:"#374151"}}>
+                <i className={ic} style={{color:cl,fontSize:"0.8rem"}}/>{lb}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll hint */}
+      <div onClick={()=>go("about")} style={{position:"absolute",bottom:"2rem",left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:"0.38rem",cursor:"pointer",opacity:0.45}}>
+        <span style={{fontSize:"0.65rem",letterSpacing:"0.18em",textTransform:"uppercase",fontFamily:"'JetBrains Mono',monospace",color:"#64748B"}}>Scroll</span>
+        <div style={{width:22,height:22,border:"1.5px solid #CBD5E1",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",animation:"blobFloat 1.8s ease-in-out infinite"}}>
+          <i className="fas fa-chevron-down" style={{fontSize:"0.55rem",color:"#64748B"}}/>
+        </div>
+      </div>
+    </section>
+
+    {/* Three.js wave divider */}
+    <ThreeWave/>
+
+    {/* ═══ ABOUT ════════════════════════════════════════════════ */}
+    <section id="about" style={{padding:"6rem 0",background:"#fff"}}>
+      <div className="C">
+        <SecHead tag="// About Me" title="Who I Am" sub="A passionate engineer turning ideas into scalable digital solutions"/>
+        <div className="ag" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"4rem",alignItems:"center"}}>
+          {/* Avatar panel */}
+          <div style={{position:"relative"}}>
+            <div style={{borderRadius:24,background:"linear-gradient(135deg,#EFF6FF,#F0F4FF)",border:"1.5px solid #DBEAFE",aspectRatio:"1",display:"flex",alignItems:"center",justifyContent:"center",position:"relative",overflow:"hidden",boxShadow:"0 12px 40px rgba(37,99,235,0.08)"}}>
+              {/* Animated SVG illustration */}
+              <svg viewBox="0 0 320 320" style={{width:"80%",height:"80%"}} xmlns="http://www.w3.org/2000/svg">
+                {/* Monitor */}
+                <rect x="60" y="60" width="200" height="140" rx="12" fill="#fff" stroke="#DBEAFE" strokeWidth="2"/>
+                <rect x="60" y="60" width="200" height="30" rx="12" fill="#EFF6FF"/>
+                <rect x="60" y="90" width="200" height="2" fill="#E2E8F0"/>
+                {/* Window dots */}
+                <circle cx="78" cy="75" r="5" fill="#EF4444"/>
+                <circle cx="94" cy="75" r="5" fill="#F59E0B"/>
+                <circle cx="110" cy="75" r="5" fill="#22C55E"/>
+                {/* Animated code lines */}
+                <g fontFamily="monospace" fontSize="11">
+                  <text x="75" y="115" fill="#2563EB" style={{animation:"pulse 2s ease infinite"}}>const dev = &#123;</text>
+                  <text x="85" y="132" fill="#059669">  name: "Alex",</text>
+                  <text x="85" y="149" fill="#7C3AED">  stack: "MERN",</text>
+                  <text x="85" y="166" fill="#059669">  coffee: true</text>
+                  <text x="75" y="183" fill="#2563EB">&#125;;</text>
+                </g>
+                {/* Cursor blink */}
+                <rect x="120" y="175" width="2" height="11" fill="#2563EB" style={{animation:"cursorBlink 1s step-end infinite"}}/>
+                {/* Stand */}
+                <rect x="148" y="200" width="24" height="28" rx="4" fill="#DBEAFE"/>
+                <rect x="120" y="226" width="80" height="8" rx="4" fill="#BFDBFE"/>
+                {/* Keyboard */}
+                <rect x="80" y="250" width="160" height="30" rx="6" fill="#EFF6FF" stroke="#DBEAFE" strokeWidth="1.5"/>
+                {[0,1,2,3,4].map(i=>[0,1,2,3,4,5,6].map(j=>(
+                  <rect key={`${i}${j}`} x={90+j*20} y={255+i*3.5} width="14" height="2.5" rx="1" fill="#BFDBFE"/>
+                )))}
+                {/* Floating elements */}
+                <g style={{animation:"floatIcon 3s ease-in-out infinite"}}>
+                  <rect x="18" y="80" width="36" height="36" rx="10" fill="#DBEAFE"/>
+                  <text x="36" y="103" textAnchor="middle" fontSize="16">⚛</text>
+                </g>
+                <g style={{animation:"floatIcon 4s ease-in-out infinite .8s"}}>
+                  <rect x="266" y="80" width="36" height="36" rx="10" fill="#D1FAE5"/>
+                  <text x="284" y="103" textAnchor="middle" fontSize="16">🍃</text>
+                </g>
+                <g style={{animation:"floatIcon 3.5s ease-in-out infinite 0.4s"}}>
+                  <rect x="18" y="185" width="36" height="36" rx="10" fill="#EDE9FE"/>
+                  <text x="36" y="208" textAnchor="middle" fontSize="16">🚀</text>
+                </g>
+                <g style={{animation:"floatIcon 5s ease-in-out infinite 1.2s"}}>
+                  <rect x="266" y="185" width="36" height="36" rx="10" fill="#FEF3C7"/>
+                  <text x="284" y="208" textAnchor="middle" fontSize="16">⚡</text>
+                </g>
+              </svg>
             </div>
+            <div style={{position:"absolute",bottom:-16,right:-16,width:130,height:130,borderRadius:16,border:"1.5px solid #DBEAFE",background:"rgba(239,246,255,0.5)",zIndex:-1}}/>
           </div>
-          <div className="hero-scroll" onClick={() => scrollTo("about")}>
-            <span className="scroll-text">Scroll</span>
-            <div className="scroll-arrow"><i className="fas fa-chevron-down" /></div>
-          </div>
-        </section>
 
-        {/* ABOUT */}
-        <section id="about">
-          <div className="container">
-            <SectionHeader
-              tag="// About Me"
-              title="Who I Am"
-              subtitle="A passionate developer turning ideas into scalable digital solutions"
-            />
-            <div className="about-grid">
-              <div className="about-img-wrap">
-                <img
-                  src="https://media0.giphy.com/media/v1.Y2lkPTZjMDliOTUydHVwNWlobG5mMzltMG0yMTM2M2g1a2w4enh4NDBwaGhvOXB6Yzc5NSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/qgQUggAC3Pfv687qPC/source.gif"
-                  alt="About"
-                  style={{ width: "100%", height: "360px", objectFit: "cover", borderRadius: "22px" }}
-                />
-                <div className="about-accent" />
-              </div>
-              <div className="about-text">
-                <h3 className="about-intro">
-                  Building the <span>future</span> of the web, one commit at a time.
-                </h3>
-                <p className="about-para">
-                  I'm a Fresher Full-Stack Developer with 1+ years of experience
-                  specializing in the MERN stack. I architect and build
-                  enterprise-grade applications that handle massive scale — from
-                  initial design to cloud deployment.
-                </p>
-                <p className="about-para">
-                  My expertise spans the full development lifecycle: crafting
-                  pixel-perfect React UIs, designing robust Node.js APIs,
-                  optimizing MongoDB databases, and setting up production-grade
-                  DevOps pipelines on AWS.
-                </p>
-                <div className="about-highlights">
-                  {[
-                    { icon: "fas fa-map-marker-alt", text: "Surat , Gujarat" },
-                    { icon: "fas fa-graduation-cap", text: "Bachelor of Computer Applications (BCA)" },
-                    { icon: "fas fa-briefcase", text: "1+ Years Experience" },
-                    { icon: "fas fa-certificate", text: "AWS Certified Developer" },
-                    { icon: "fas fa-globe", text: "Available In India" },
-                    { icon: "fas fa-language", text: "English, Hindi, Gujarati , Marathi" },
-                  ].map((h) => (
-                    <div key={h.text} className="about-highlight">
-                      <i className={h.icon} />
-                      <span>{h.text}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="about-actions">
-                  <button className="btn-primary" onClick={() => scrollTo("contact")}>
-                    <i className="fas fa-envelope" /> Let's Talk
-                  </button>
-                  <button className="btn-secondary" onClick={() => scrollTo("projects")}>
-                    <i className="fas fa-folder-open" /> My Work
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* STATS */}
-        <section id="stats">
-          <div className="container">
-            <div className="stats-grid">
-              {STATS.map((s) => (
-                <div key={s.label} className="stat-card">
-                  <div className="stat-icon"><i className={s.icon} /></div>
-                  <div className="stat-value">{s.value}</div>
-                  <div className="stat-label">{s.label}</div>
+          {/* Text */}
+          <div>
+            <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:"1.5rem",fontWeight:800,letterSpacing:"-0.02em",marginBottom:"1rem",lineHeight:1.3,color:"#0F172A"}}>
+              Building the{" "}
+              <span style={{background:"linear-gradient(135deg,#2563EB,#6366F1)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>future</span>
+              {" "}of the web, one commit at a time.
+            </h3>
+            {["I'm a Senior Full-Stack Developer with 5+ years of experience specializing in the MERN stack. I architect and build enterprise-grade applications that handle massive scale — from initial design to cloud deployment.",
+              "My expertise spans the full development lifecycle: crafting pixel-perfect React UIs, designing robust Node.js APIs, optimizing MongoDB databases, and setting up production-grade DevOps pipelines on AWS."
+            ].map((t,i)=>(
+              <p key={i} style={{color:"#475569",fontSize:"0.95rem",lineHeight:1.88,marginBottom:"0.85rem"}}>{t}</p>
+            ))}
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0.65rem",margin:"1.6rem 0"}}>
+              {[["fas fa-map-marker-alt","San Francisco, CA"],["fas fa-graduation-cap","B.Tech Computer Science"],["fas fa-briefcase","5+ Years Experience"],["fas fa-certificate","AWS Certified Developer"],["fas fa-globe","Available Worldwide"],["fas fa-language","English · Hindi · Spanish"]].map(([ic,tx])=>(
+                <div key={tx} style={{display:"flex",alignItems:"center",gap:"0.55rem",fontSize:"0.85rem",color:"#475569",fontWeight:500}}>
+                  <i className={ic} style={{color:"#3B82F6",fontSize:"0.78rem",width:13}}/>{tx}
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* SKILLS */}
-        <section id="skills">
-          <div className="container">
-            <SectionHeader
-              tag="// Tech Stack"
-              title="Skills & Expertise"
-              subtitle="My complete technical arsenal — built through years of real-world development"
-            />
-            <div className="skills-tabs">
-              {Object.keys(SKILLS).map((tab) => (
-                <button
-                  key={tab}
-                  className={`skills-tab ${activeSkillTab === tab ? "active" : ""}`}
-                  onClick={() => setActiveSkillTab(tab)}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-            <div className="skills-grid">
-              {SKILLS[activeSkillTab].map((skill, i) => (
-                <SkillBar key={skill.name} {...skill} delay={i * 80} />
-              ))}
-            </div>
-
-            {/* Tech Logos strip */}
-            <div style={{ marginTop: "4rem", borderTop: "1px solid var(--border)", paddingTop: "3rem" }}>
-              <p style={{ textAlign: "center", color: "var(--text3)", fontSize: "0.78rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "2rem", fontFamily: "var(--font-code)" }}>
-                Also experienced with
-              </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", justifyContent: "center" }}>
-                {["Python", "Golang", "Rust", "Flutter", "React Native", "Kubernetes", "Terraform", "Jenkins", "Kafka", "RabbitMQ", "Prisma", "Sequelize", "Jest", "Cypress", "Storybook"].map((t) => (
-                  <span key={t} style={{ padding: "0.4rem 0.9rem", background: "#fff", border: "1px solid var(--border)", borderRadius: "8px", fontSize: "0.8rem", color: "var(--text2)", fontWeight: 600, fontFamily: "var(--font-code)", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* PROJECTS */}
-        <section id="projects">
-          <div className="container">
-            <SectionHeader
-              tag="// Portfolio"
-              title="Featured Projects"
-              subtitle="Real-world applications built with passion, precision, and production-grade quality"
-            />
-            <div className="projects-grid">
-              {PROJECTS.map((p, i) => (
-                <ProjectCard key={p.title} project={p} index={i} />
-              ))}
-            </div>
-            <div style={{ textAlign: "center", marginTop: "3rem" }}>
-              <a href="#" className="btn-secondary" style={{ display: "inline-flex", textDecoration: "none", color: "var(--text)" }}>
-                <i className="fab fa-github" /> View All on GitHub
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* EXPERIENCE */}
-        <section id="experience">
-          <div className="container">
-            <SectionHeader
-              tag="// Work History"
-              title="Experience"
-              subtitle="A track record of delivering impactful solutions at scale"
-            />
-            <div className="exp-timeline">
-              {EXPERIENCE.map((exp, i) => (
-                <ExperienceCard key={exp.company} exp={exp} index={i} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CONTACT */}
-        <section id="contact">
-          <div className="container">
-            <SectionHeader
-              tag="// Say Hello"
-              title="Get In Touch"
-              subtitle="Ready to build something amazing together? Let's talk!"
-            />
-            <div className="contact-grid">
-              <div className="contact-info">
-                <h3>
-                  Let's Create Something{" "}
-                  <span style={{ background: "linear-gradient(135deg,#2563EB,#6366F1)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                    Extraordinary
-                  </span>
-                </h3>
-                <p>
-                  Whether you have a project in mind, want to collaborate, or
-                  just want to say hi — my inbox is always open. I typically
-                  respond within 24 hours.
-                </p>
-                <div className="contact-items">
-                  {[
-                    { icon: "fas fa-envelope", label: "Email", value: "ap195569@gmail.com" },
-                    { icon: "fas fa-phone", label: "Phone", value: "+91 7574948640" },
-                    { icon: "fas fa-map-marker-alt", label: "Location", value: "Surat , Gujarat" },
-                  ].map((item) => (
-                    <div key={item.label} className="contact-item">
-                      <div className="contact-item-icon"><i className={item.icon} /></div>
-                      <div>
-                        <div className="contact-item-label">{item.label}</div>
-                        <div className="contact-item-value">{item.value}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="contact-socials">
-                  {[
-                    { icon: "fab fa-github", href: "#" },
-                    { icon: "fab fa-linkedin", href: "#" },
-                    { icon: "fab fa-twitter", href: "#" },
-                    { icon: "fab fa-dev", href: "#" },
-                    { icon: "fab fa-youtube", href: "#" },
-                  ].map((s) => (
-                    <a key={s.icon} href={s.href} className="contact-social">
-                      <i className={s.icon} />
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              <form className="contact-form" onSubmit={handleContact}>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label className="form-label">Your Name</label>
-                    <input className="form-input" type="text" required placeholder="John Doe"
-                      value={contactForm.name} onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })} />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Email Address</label>
-                    <input className="form-input" type="email" required placeholder="john@example.com"
-                      value={contactForm.email} onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })} />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Subject</label>
-                  <input className="form-input" type="text" required placeholder="Project Collaboration"
-                    value={contactForm.subject} onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Message</label>
-                  <textarea className="form-textarea" required placeholder="Tell me about your project, goals, and timeline..."
-                    value={contactForm.message} onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })} />
-                </div>
-                <button type="submit" className="form-submit" disabled={formStatus === "sending"}>
-                  {formStatus === "sending"
-                    ? <><i className="fas fa-spinner fa-spin" /> Sending...</>
-                    : <><i className="fas fa-paper-plane" /> Send Message</>
-                  }
-                </button>
-                {formStatus === "sent" && (
-                  <div className="form-success">
-                    <i className="fas fa-check-circle" /> Message sent successfully! I'll be in touch soon.
-                  </div>
-                )}
-              </form>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* FOOTER */}
-      <footer>
-        <div className="container">
-          <div className="footer-inner">
-            <div className="footer-logo">Amol<span>.</span>Dev</div>
-            <div className="footer-copy">
-              © 2024 Amol Patil. Built with <span>❤</span> using MERN Stack & Three.js
-            </div>
-            <div className="footer-links">
-              {["Privacy", "Terms", "Sitemap"].map((l) => (
-                <a key={l} href="#" className="footer-link">{l}</a>
-              ))}
+            <div style={{display:"flex",gap:"0.75rem",flexWrap:"wrap"}}>
+              <button onClick={()=>go("contact")} style={BP} onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"} onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}><i className="fas fa-envelope"/>Let's Talk</button>
+              <button onClick={()=>go("projects")} style={BO} onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color="#2563EB";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#374151";}}><i className="fas fa-folder-open"/>My Work</button>
             </div>
           </div>
         </div>
-      </footer>
+      </div>
+    </section>
 
-      {/* BACK TO TOP */}
-      {scrollY > 400 && (
-        <button className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-          <i className="fas fa-chevron-up" />
-        </button>
-      )}
-    </>
-  );
+    {/* ═══ STATS STRIP ══════════════════════════════════════════ */}
+    <section style={{padding:"3.5rem 0",background:"linear-gradient(135deg,#EFF6FF,#F0F4FF)",borderTop:"1px solid #E2E8F0",borderBottom:"1px solid #E2E8F0"}}>
+      <div className="C">
+        <div className="sg" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"1.25rem"}}>
+          {STATS_DATA.map((s,i)=><StatCard key={s.label} s={s} i={i}/>)}
+        </div>
+      </div>
+    </section>
+
+    {/* ═══ SKILLS ═══════════════════════════════════════════════ */}
+    <section id="skills" style={{padding:"6rem 0",background:"#fff"}}>
+      <div className="C">
+        <SecHead tag="// Tech Stack" title="Skills & Expertise" sub="My complete technical arsenal built through years of real-world engineering"/>
+        {/* Tabs */}
+        <div style={{display:"flex",gap:"0.42rem",justifyContent:"center",marginBottom:"2.8rem",flexWrap:"wrap"}}>
+          {Object.keys(SKILLS).map(t=>(
+            <button key={t} onClick={()=>sST(t)} style={{padding:"0.52rem 1.3rem",borderRadius:9,fontSize:"0.84rem",fontWeight:700,cursor:"pointer",border:"1.5px solid",borderColor:sTab===t?"#3B82F6":"#E2E8F0",background:sTab===t?"#EFF6FF":"#fff",color:sTab===t?"#2563EB":"#475569",transition:"all .2s",fontFamily:"'DM Sans',sans-serif",boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+              {t}
+            </button>
+          ))}
+        </div>
+        <div className="skg" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1.6rem 3rem"}}>
+          {SKILLS[sTab].map((s,i)=><SkBar key={s.name} {...s} delay={i*72}/>)}
+        </div>
+        {/* Extra pills */}
+        <div style={{marginTop:"3.5rem",paddingTop:"2.5rem",borderTop:"1px solid #F1F5F9"}}>
+          <p style={{textAlign:"center",fontSize:"0.68rem",color:"#94A3B8",letterSpacing:"0.22em",textTransform:"uppercase",marginBottom:"1.5rem",fontFamily:"'JetBrains Mono',monospace"}}>Also experienced with</p>
+          <div style={{display:"flex",flexWrap:"wrap",gap:"0.52rem",justifyContent:"center"}}>
+            {["Python","Golang","Flutter","React Native","Kubernetes","Terraform","Jenkins","Kafka","Prisma","Jest","Cypress","Storybook","Vite","Webpack","Babel","Socket.io"].map(t=>(
+              <span key={t} style={{padding:"0.3rem 0.82rem",background:"#F8FAFF",border:"1px solid #E2E8F0",borderRadius:8,fontSize:"0.74rem",color:"#64748B",fontWeight:600,fontFamily:"'JetBrains Mono',monospace"}}>{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Three.js wave divider */}
+    <ThreeWave/>
+
+    {/* ═══ PROJECTS ════════════════════════════════════════════ */}
+    <section id="projects" style={{padding:"6rem 0",background:"linear-gradient(160deg,#F8FAFF,#EFF6FF 60%,#F8FAFF)"}}>
+      <div className="C">
+        <SecHead tag="// Portfolio" title="Featured Projects" sub="Real-world applications built with passion, precision, and production-grade quality"/>
+        <div className="pg" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(340px,1fr))",gap:"1.2rem"}}>
+          {PROJECTS.map((p,i)=><ProjCard key={p.title} p={p} index={i}/>)}
+        </div>
+        <div style={{textAlign:"center",marginTop:"2.8rem"}}>
+          <a href="#" style={BO} onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color="#2563EB";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#374151";}}>
+            <i className="fab fa-github"/>View All on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    {/* ═══ EXPERIENCE ══════════════════════════════════════════ */}
+    <section id="experience" style={{padding:"6rem 0",background:"#fff"}}>
+      <div className="C">
+        <SecHead tag="// Work History" title="Experience" sub="A track record of delivering impactful solutions at scale"/>
+        {EXP.map((e,i)=><ExpCard key={e.company} e={e} i={i}/>)}
+      </div>
+    </section>
+
+    {/* Three.js wave divider */}
+    <ThreeWave/>
+
+    {/* ═══ CONTACT ═════════════════════════════════════════════ */}
+    <section id="contact" style={{padding:"6rem 0",background:"linear-gradient(160deg,#EFF6FF,#F8FAFF 60%,#F0F4FF)"}}>
+      <div className="C">
+        <SecHead tag="// Say Hello" title="Get In Touch" sub="Ready to build something amazing together? Let's talk!"/>
+        <div className="cg" style={{display:"grid",gridTemplateColumns:"1fr 1.38fr",gap:"3rem",alignItems:"start"}}>
+          {/* Info */}
+          <div>
+            <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:"1.5rem",fontWeight:800,letterSpacing:"-0.02em",marginBottom:"0.9rem",lineHeight:1.3,color:"#0F172A"}}>
+              Let's Create Something{" "}
+              <span style={{background:"linear-gradient(135deg,#2563EB,#6366F1)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Extraordinary</span>
+            </h3>
+            <p style={{color:"#64748B",fontSize:"0.93rem",lineHeight:1.85,marginBottom:"1.8rem"}}>
+              Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open. I typically respond within 24 hours.
+            </p>
+            <div style={{display:"flex",flexDirection:"column",gap:"0.65rem",marginBottom:"1.8rem"}}>
+              {[["fas fa-envelope","Email","alex@developer.com"],["fas fa-phone","Phone","+1 (555) 123-4567"],["fas fa-map-marker-alt","Location","San Francisco, CA"],["fas fa-clock","Availability","Mon–Fri, 9AM–6PM PST"]].map(([ic,lb,vl])=>(
+                <div key={lb} style={{display:"flex",alignItems:"center",gap:"0.8rem",padding:"0.8rem 1rem",background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:13,transition:"all .22s",cursor:"default",boxShadow:"0 2px 8px rgba(0,0,0,0.03)"}}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.transform="translateX(4px)";e.currentTarget.style.boxShadow="0 4px 16px rgba(37,99,235,0.1)";}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.transform="translateX(0)";e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.03)";}}>
+                  <div style={{width:36,height:36,borderRadius:10,background:"#EFF6FF",display:"flex",alignItems:"center",justifyContent:"center",color:"#2563EB",flexShrink:0,fontSize:"0.88rem"}}><i className={ic}/></div>
+                  <div>
+                    <div style={{fontSize:"0.66rem",color:"#94A3B8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",fontFamily:"'JetBrains Mono',monospace"}}>{lb}</div>
+                    <div style={{fontSize:"0.88rem",color:"#1E293B",fontWeight:600}}>{vl}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{display:"flex",gap:"0.55rem"}}>
+              {[["fab fa-github","#0F172A"],["fab fa-linkedin","#0077B5"],["fab fa-twitter","#1DA1F2"],["fab fa-dev","#0F172A"],["fab fa-youtube","#FF0000"]].map(([ic,hc])=>(
+                <a key={ic} href="#" style={{width:42,height:42,background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:11,display:"flex",alignItems:"center",justifyContent:"center",color:"#64748B",fontSize:"0.92rem",textDecoration:"none",transition:"all .22s",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color=hc;e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 6px 16px rgba(37,99,235,0.12)";}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#64748B";e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)";}}><i className={ic}/></a>
+              ))}
+            </div>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={submit} style={{background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:22,padding:"2.2rem",boxShadow:"0 8px 32px rgba(37,99,235,0.07)"}}>
+            <div className="fr" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0.9rem"}}>
+              {[["name","text","Your Name","John Doe"],["email","email","Email Address","john@example.com"]].map(([fd,tp,lb,ph])=>(
+                <div key={fd}>
+                  <label style={LB}>{lb}</label>
+                  <input type={tp} required placeholder={ph} value={form[fd]} onChange={e=>sF({...form,[fd]:e.target.value})} style={IN}
+                    onFocus={e=>{e.target.style.borderColor="#3B82F6";e.target.style.boxShadow="0 0 0 3px rgba(59,130,246,0.1)";e.target.style.background="#fff";}}
+                    onBlur={e=>{e.target.style.borderColor="#E2E8F0";e.target.style.boxShadow="none";e.target.style.background="#F8FAFF";}}/>
+                </div>
+              ))}
+            </div>
+            <div style={{marginTop:"0.9rem"}}>
+              <label style={LB}>Subject</label>
+              <input type="text" required placeholder="Project Collaboration" value={form.subject} onChange={e=>sF({...form,subject:e.target.value})} style={IN}
+                onFocus={e=>{e.target.style.borderColor="#3B82F6";e.target.style.boxShadow="0 0 0 3px rgba(59,130,246,0.1)";e.target.style.background="#fff";}}
+                onBlur={e=>{e.target.style.borderColor="#E2E8F0";e.target.style.boxShadow="none";e.target.style.background="#F8FAFF";}}/>
+            </div>
+            <div style={{marginTop:"0.9rem"}}>
+              <label style={LB}>Message</label>
+              <textarea required placeholder="Tell me about your project, goals, and timeline…" value={form.message} onChange={e=>sF({...form,message:e.target.value})} style={{...IN,resize:"vertical",minHeight:118}}
+                onFocus={e=>{e.target.style.borderColor="#3B82F6";e.target.style.boxShadow="0 0 0 3px rgba(59,130,246,0.1)";e.target.style.background="#fff";}}
+                onBlur={e=>{e.target.style.borderColor="#E2E8F0";e.target.style.boxShadow="none";e.target.style.background="#F8FAFF";}}/>
+            </div>
+            <button type="submit" disabled={fSt==="sending"} style={{...BP,width:"100%",marginTop:"1.1rem",justifyContent:"center",opacity:fSt==="sending"?0.72:1}}
+              onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"} onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}>
+              {fSt==="sending"?<><i className="fas fa-spinner fa-spin"/>Sending…</>:<><i className="fas fa-paper-plane"/>Send Message</>}
+            </button>
+            {fSt==="sent"&&(
+              <div style={{marginTop:"0.9rem",padding:"0.85rem",textAlign:"center",background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:10,color:"#16A34A",fontWeight:700,fontSize:"0.88rem"}}>
+                <i className="fas fa-check-circle" style={{marginRight:"0.4rem"}}/>Message sent! I'll be in touch soon.
+              </div>
+            )}
+          </form>
+        </div>
+      </div>
+    </section>
+
+    {/* ═══ FOOTER ═══════════════════════════════════════════════ */}
+    <footer style={{padding:"2.2rem 0",background:"#fff",borderTop:"1px solid #E2E8F0"}}>
+      <div className="C" style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"1rem"}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontSize:"1.28rem",fontWeight:800,color:"#0F172A"}}>
+          Alex<span style={{color:"#2563EB"}}>.</span>dev
+        </div>
+        <p style={{fontSize:"0.8rem",color:"#94A3B8"}}>
+          © 2024 Alex Johnson · Built with <span style={{color:"#2563EB"}}>♥</span> using MERN Stack &amp; Three.js
+        </p>
+        <div style={{display:"flex",gap:"1.2rem"}}>
+          {["Privacy","Terms","Sitemap"].map(l=>(
+            <a key={l} href="#" style={{fontSize:"0.8rem",color:"#94A3B8",textDecoration:"none",transition:"color .2s"}}
+              onMouseEnter={e=>e.currentTarget.style.color="#2563EB"} onMouseLeave={e=>e.currentTarget.style.color="#94A3B8"}>{l}</a>
+          ))}
+        </div>
+      </div>
+    </footer>
+
+    {/* Back to top */}
+    {sy>400&&(
+      <button onClick={()=>window.scrollTo({top:0,behavior:"smooth"})} style={{position:"fixed",bottom:"2rem",right:"2rem",width:42,height:42,background:"linear-gradient(135deg,#2563EB,#6366F1)",border:"none",borderRadius:12,color:"#fff",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.88rem",boxShadow:"0 6px 20px rgba(37,99,235,0.3)",transition:"all .22s",zIndex:500}}
+        onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 10px 28px rgba(37,99,235,0.4)";}}
+        onMouseLeave={e=>{e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="0 6px 20px rgba(37,99,235,0.3)";}}>
+        <i className="fas fa-chevron-up"/>
+      </button>
+    )}
+  </>);
 }
