@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React,{ useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 
 /* ============================================================
@@ -46,52 +46,34 @@ const SKILLS = {
 };
 
 const PROJECTS = [
-title: "Readly.in The ",
-    subtitle: "Full-Stack Blogs Website ",
-    desc: "The is Blogs website Daily New Blogs by Authors and Millions Of readers.",
-    tech: ["React", "Node.js", "MongoDB", "three.js", "express"],
-    color: "#2563EB",
-    accent: "#EFF6FF",
-    icon: "fas fa-shopping-cart",
-    github: "https://github.com/amolpatil1955/Readly.in",
-    live: "https://readly-in-fronted.onrender.com/",
-    stats: { stars: 340, forks: 89, views: "12K" },
-    featured: true,
-       // {title:"ChatSphere",  subtitle:"Real-Time Chat App",     desc:"Scalable chat platform with WebSocket integration, E2E encryption, WebRTC video calling, group management and file sharing. Handles 10K+ concurrent users with zero downtime.",tech:["React","Socket.io","Node.js","MongoDB","WebRTC"],accent:"#6366F1",icon:"fas fa-comments",stats:{stars:520,forks:134,views:"18K"},featured:true},
-  // {title:"DevBoard",    subtitle:"Project Management SaaS",desc:"Jira-like project tool with Kanban boards, sprint planning, burndown charts, GitHub integration and automated deployment tracking for agile development teams.",tech:["Next.js","Express","PostgreSQL","GraphQL","Docker"],accent:"#7C3AED",icon:"fas fa-tasks",stats:{stars:280,forks:67,views:"9K"},featured:false},
-  // {title:"AiNotes",    subtitle:"AI Note Taking App",      desc:"Smart note-taking with GPT-4 integration, semantic search, auto-tagging, mind-map visualization, markdown support and intelligent summarization of long documents.",tech:["React","Node.js","MongoDB","OpenAI","Langchain"],accent:"#0EA5E9",icon:"fas fa-brain",stats:{stars:410,forks:102,views:"15K"},featured:true},
-  // {title:"FinTrack Pro",subtitle:"Finance Dashboard",      desc:"Comprehensive finance tracker with bank API integration, automated categorization, portfolio tracking, budget alerts and predictive analytics with beautiful data visualizations.",tech:["React","Express","MongoDB","Chart.js","Plaid"],accent:"#16A34A",icon:"fas fa-chart-line",stats:{stars:195,forks:48,views:"7K"},featured:false},
-  // {title:"CryptoVault", subtitle:"Crypto Portfolio",       desc:"Real-time crypto management with live price feeds, DeFi protocol integration, NFT tracking, tax loss harvesting suggestions and automated trading bots.",tech:["React","Node.js","WebSockets","MongoDB","Web3.js"],accent:"#D97706",icon:"fab fa-bitcoin",stats:{stars:620,forks:178,views:"22K"},featured:false},
-];
+{
+  title:"Readly.in",
+  subtitle:"The Blogs Platform",
+  repo:"https://github.com/amolpatil1955/Readly.in",
+  live:"https://readly-in-fronted.onrender.com/",
+  img:"/images/readly.png",
+  desc:"Readly.in is a modern blog platform where users can explore, read, and manage blogs with an easy-to-use dashboard and smooth reading experience.",
+  tech:["React","Node.js","MongoDB","three.js","express","render"],
+  accent:"#2563EB",
+  icon:"fas fa-blog",
+  stats:{stars:340,forks:89,views:"12K"},
+  featured:true
+}
+]
 
 const EXP = [
-
-  {
-    role: "Full-Stack Developer | Intern",
-    company: "GM INFOTECH PVT LTD",
-    period: "Dec 2025 – Jan 2026",
-    type: "Full-Time ",
-    desc: "Developed a production-ready Age Verification Popup (AVP) Shopify plugin using the MERN stack, enabling seamless integration for online stores  Engineered a secure pay-to-use plugin system, allowing merchants to install and manage the extension efficiently.– Built a dynamic admin dashboard with customizable popup settings, improving merchant control and usability.– Implemented an analytics module with interactive graphs to track visitor verification data and user behavior",
-    achievements: [
-      "React.js",
-      "MongoDB",
-      "Node.js",
-      "Express.js",
-      "Shopify API",
-      "React Polarise",
-    ],
-    color: "#2563EB",
-    icon: "fas fa-rocket",
-  },
-
+  {role:"MERN STACK DEVLOPER | INTERN",company:"GM infotech",period:"NOV-2025 – Jan-2026",type:"Full-Time",desc:"Developed an Age Verification Popup system similar to a Shopify plugin at GM Infotech, featuring a fully customizable popup, admin dashboard, and analytics graphs to monitor user interactions and verification statistics..",wins:["React","Node","MongoDB","Shopify"],accent:"#2563EB",icon:"fas fa-rocket"},
+  // {role:"Full-Stack Developer",company:"WebCraft Studios",period:"2020 – 2022",type:"Full-Time",desc:"Delivered 15+ client MERN projects. Implemented CI/CD pipelines, Dockerized deployments and automated testing achieving 95% coverage.",wins:["15+ projects","95% coverage","30% faster","100% on-time"],accent:"#6366F1",icon:"fas fa-laptop-code"},
+  // {role:"Backend Developer Intern",company:"StartupHub",period:"2019 – 2020",type:"Internship",desc:"Designed RESTful APIs for fintech startup, integrated payment gateways, optimized MongoDB queries achieving 40% faster response times.",wins:["40% faster","Payment API","3 products","Open-source"],accent:"#0EA5E9",icon:"fas fa-code"},
+  // {role:"Freelance Web Developer",company:"Self-Employed",period:"2018 – 2019",type:"Freelance",desc:"Delivered 25+ web projects for clients across 8 countries. Specialized in React frontends and Node.js backends for SaaS, e-commerce sites.",wins:["25+ projects","8 countries","98% rating","$150K rev"],accent:"#16A34A",icon:"fas fa-briefcase"},
 ];
 
-const STATS_DATA = [
-  {val:"5+", label:"Years Experience",  icon:"fas fa-calendar-alt"},
-  {val:"80+",label:"Projects Completed",icon:"fas fa-project-diagram"},
-  {val:"50+",label:"Happy Clients",     icon:"fas fa-smile"},
-  {val:"2M+",label:"Users Served",      icon:"fas fa-users"},
-];
+// const STATS_DATA = [
+//   {val:"5+", label:"Years Experience",  icon:"fas fa-calendar-alt"},
+//   {val:"80+",label:"Projects Completed",icon:"fas fa-project-diagram"},
+//   {val:"50+",label:"Happy Clients",     icon:"fas fa-smile"},
+//   {val:"2M+",label:"Users Served",      icon:"fas fa-users"},
+// ];
 
 // ─── HOOKS ──────────────────────────────────────────────────
 
@@ -110,7 +92,7 @@ function useReveal(t=0.12){
 function CodeAvatar(){
   const lines=[
     {txt:"const developer = {",  color:"#1D4ED8", indent:0},
-    {txt:'  name: "Alex Johnson",', color:"#059669", indent:0},
+    {txt:'  name: "Amol Patil",', color:"#059669", indent:0},
     {txt:'  role: "MERN Expert",',  color:"#059669", indent:0},
     {txt:"  skills: [",           color:"#1D4ED8", indent:0},
     {txt:'    "React", "Node",',  color:"#D97706", indent:0},
@@ -318,36 +300,234 @@ function StatCard({s,i}){
 // ─── PROJECT CARD ────────────────────────────────────────────
 
 function ProjCard({p,index}){
-  const [h,sh]=useState(false); const [ref,v]=useReveal(0.08);
+  const [h,sh]=useState(false); 
+  const [ref,v]=useReveal(0.08);
+
   return(
-    <div ref={ref} onMouseEnter={()=>sh(true)} onMouseLeave={()=>sh(false)}
-      style={{background:h?"#fff":"#FAFCFF",border:`1.5px solid ${h?"#BFDBFE":"#E2E8F0"}`,borderRadius:20,padding:"1.6rem",position:"relative",overflow:"hidden",cursor:"default",transition:"all .3s cubic-bezier(.4,0,.2,1)",transform:v?(h?"translateY(-5px)":"translateY(0)"):"translateY(24px)",opacity:v?1:0,transitionDelay:v?`${index*80}ms`:"0ms",boxShadow:h?"0 20px 48px rgba(37,99,235,0.13), 0 4px 16px rgba(0,0,0,0.04)":"0 2px 12px rgba(0,0,0,0.04)"}}>
+    <div 
+      ref={ref} 
+      onMouseEnter={()=>sh(true)} 
+      onMouseLeave={()=>sh(false)}
+      style={{
+        background:h?"#fff":"#FAFCFF",
+        border:`1.5px solid ${h?"#BFDBFE":"#E2E8F0"}`,
+        borderRadius:20,
+        padding:"1.6rem",
+        position:"relative",
+        overflow:"hidden",
+        cursor:"default",
+        transition:"all .3s cubic-bezier(.4,0,.2,1)",
+        transform:v?(h?"translateY(-5px)":"translateY(0)"):"translateY(24px)",
+        opacity:v?1:0,
+        transitionDelay:v?`${index*80}ms`:"0ms",
+        boxShadow:h
+          ?"0 20px 48px rgba(37,99,235,0.13), 0 4px 16px rgba(0,0,0,0.04)"
+          :"0 2px 12px rgba(0,0,0,0.04)"
+      }}
+    >
+
       {/* Top color line */}
-      <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:p.accent,opacity:h?1:0.4,transition:"opacity .3s"}}/>
-      {p.featured&&<div style={{position:"absolute",top:"1rem",right:"1rem",background:`${p.accent}14`,border:`1px solid ${p.accent}44`,borderRadius:20,padding:"0.18rem 0.6rem",fontSize:"0.67rem",fontWeight:700,color:p.accent,letterSpacing:"0.06em"}}>★ Featured</div>}
-      <div style={{width:46,height:46,borderRadius:13,background:`${p.accent}12`,border:`1.5px solid ${p.accent}30`,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"1rem"}}>
+      <div style={{
+        position:"absolute",
+        top:0,
+        left:0,
+        right:0,
+        height:3,
+        background:p.accent,
+        opacity:h?1:0.4,
+        transition:"opacity .3s"
+      }}/>
+
+      {/* Featured badge */}
+      {p.featured &&
+        <div style={{
+          position:"absolute",
+          top:"1rem",
+          right:"1rem",
+          background:`${p.accent}14`,
+          border:`1px solid ${p.accent}44`,
+          borderRadius:20,
+          padding:"0.18rem 0.6rem",
+          fontSize:"0.67rem",
+          fontWeight:700,
+          color:p.accent,
+          letterSpacing:"0.06em"
+        }}>
+          ★ Featured
+        </div>
+      }
+
+      {/* Project Image */}
+      {p.img &&
+        <img
+          src={p.img}
+          alt={p.title}
+          style={{
+            width:"100%",
+            height:"150px",
+            objectFit:"cover",
+            borderRadius:"12px",
+            marginBottom:"1rem",
+            border:"1px solid #E2E8F0"
+          }}
+        />
+      }
+
+      {/* Icon */}
+      <div style={{
+        width:46,
+        height:46,
+        borderRadius:13,
+        background:`${p.accent}12`,
+        border:`1.5px solid ${p.accent}30`,
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"center",
+        marginBottom:"1rem"
+      }}>
         <i className={p.icon} style={{color:p.accent,fontSize:"1.1rem"}}/>
       </div>
-      <h3 style={{fontFamily:"'Syne',sans-serif",fontSize:"1.18rem",fontWeight:800,color:"#0F172A",marginBottom:"0.18rem",letterSpacing:"-0.01em"}}>{p.title}</h3>
-      <p style={{fontSize:"0.7rem",color:"#94A3B8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:"0.7rem",fontFamily:"'JetBrains Mono',monospace"}}>{p.subtitle}</p>
-      <p style={{fontSize:"0.86rem",color:"#475569",lineHeight:1.75,marginBottom:"0.9rem"}}>{p.desc}</p>
+
+      {/* Title */}
+      <h3 style={{
+        fontFamily:"'Syne',sans-serif",
+        fontSize:"1.18rem",
+        fontWeight:800,
+        color:"#0F172A",
+        marginBottom:"0.18rem",
+        letterSpacing:"-0.01em"
+      }}>
+        {p.title}
+      </h3>
+
+      {/* Subtitle */}
+      <p style={{
+        fontSize:"0.7rem",
+        color:"#94A3B8",
+        fontWeight:700,
+        textTransform:"uppercase",
+        letterSpacing:"0.1em",
+        marginBottom:"0.7rem",
+        fontFamily:"'JetBrains Mono',monospace"
+      }}>
+        {p.subtitle}
+      </p>
+
+      {/* Description */}
+      <p style={{
+        fontSize:"0.86rem",
+        color:"#475569",
+        lineHeight:1.75,
+        marginBottom:"0.9rem"
+      }}>
+        {p.desc}
+      </p>
+
+      {/* Stats */}
       <div style={{display:"flex",gap:"1.1rem",marginBottom:"0.9rem"}}>
-        {[["fas fa-star","#D97706",p.stats.stars],["fas fa-code-branch",p.accent,p.stats.forks],["fas fa-eye","#94A3B8",p.stats.views]].map(([ic,cl,vl])=>(
-          <span key={ic} style={{fontSize:"0.75rem",color:"#94A3B8",display:"flex",alignItems:"center",gap:"0.28rem",fontFamily:"'JetBrains Mono',monospace"}}><i className={ic} style={{color:cl}}/>{vl}</span>
+        {[
+          ["fas fa-star","#D97706",p.stats.stars],
+          ["fas fa-code-branch",p.accent,p.stats.forks],
+          ["fas fa-eye","#94A3B8",p.stats.views]
+        ].map(([ic,cl,vl])=>(
+          <span key={ic}
+            style={{
+              fontSize:"0.75rem",
+              color:"#94A3B8",
+              display:"flex",
+              alignItems:"center",
+              gap:"0.28rem",
+              fontFamily:"'JetBrains Mono',monospace"
+            }}>
+            <i className={ic} style={{color:cl}}/>
+            {vl}
+          </span>
         ))}
       </div>
-      <div style={{display:"flex",flexWrap:"wrap",gap:"0.32rem",marginBottom:"1.25rem"}}>
-        {p.tech.map(t=><span key={t} style={{padding:"0.22rem 0.62rem",fontSize:"0.69rem",fontWeight:700,borderRadius:6,border:`1px solid ${p.accent}30`,color:p.accent,fontFamily:"'JetBrains Mono',monospace",background:`${p.accent}08`}}>{t}</span>)}
+
+      {/* Tech stack */}
+      <div style={{
+        display:"flex",
+        flexWrap:"wrap",
+        gap:"0.32rem",
+        marginBottom:"1.25rem"
+      }}>
+        {p.tech.map(t=>(
+          <span key={t}
+            style={{
+              padding:"0.22rem 0.62rem",
+              fontSize:"0.69rem",
+              fontWeight:700,
+              borderRadius:6,
+              border:`1px solid ${p.accent}30`,
+              color:p.accent,
+              fontFamily:"'JetBrains Mono',monospace",
+              background:`${p.accent}08`
+            }}>
+            {t}
+          </span>
+        ))}
       </div>
+
+      {/* Buttons */}
       <div style={{display:"flex",gap:"0.6rem"}}>
-        <a href="#" style={{padding:"0.46rem 0.95rem",borderRadius:9,border:"1.5px solid #E2E8F0",color:"#475569",fontSize:"0.78rem",fontWeight:700,textDecoration:"none",display:"flex",alignItems:"center",gap:"0.32rem",transition:"all .2s",fontFamily:"'DM Sans',sans-serif"}}
-          onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color="#2563EB";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#475569";}}>
+
+        {/* GitHub */}
+        <a
+          href={p.repo}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            padding:"0.46rem 0.95rem",
+            borderRadius:9,
+            border:"1.5px solid #E2E8F0",
+            color:"#475569",
+            fontSize:"0.78rem",
+            fontWeight:700,
+            textDecoration:"none",
+            display:"flex",
+            alignItems:"center",
+            gap:"0.32rem",
+            transition:"all .2s",
+            fontFamily:"'DM Sans',sans-serif"
+          }}
+          onMouseEnter={e=>{
+            e.currentTarget.style.borderColor="#BFDBFE";
+            e.currentTarget.style.color="#2563EB";
+          }}
+          onMouseLeave={e=>{
+            e.currentTarget.style.borderColor="#E2E8F0";
+            e.currentTarget.style.color="#475569";
+          }}
+        >
           <i className="fab fa-github"/>Code
         </a>
-        <a href="#" style={{padding:"0.46rem 0.95rem",borderRadius:9,background:p.accent,color:"#fff",fontSize:"0.78rem",fontWeight:700,textDecoration:"none",display:"flex",alignItems:"center",gap:"0.32rem",transition:"opacity .2s",fontFamily:"'DM Sans',sans-serif"}}
-          onMouseEnter={e=>e.currentTarget.style.opacity="0.85"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
+
+        {/* Live Demo */}
+        <a
+          href={p.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            padding:"0.46rem 0.95rem",
+            borderRadius:9,
+            background:p.accent,
+            color:"#fff",
+            fontSize:"0.78rem",
+            fontWeight:700,
+            textDecoration:"none",
+            display:"flex",
+            alignItems:"center",
+            gap:"0.32rem",
+            transition:"opacity .2s",
+            fontFamily:"'DM Sans',sans-serif"
+          }}
+          onMouseEnter={e=>e.currentTarget.style.opacity="0.85"}
+          onMouseLeave={e=>e.currentTarget.style.opacity="1"}
+        >
           <i className="fas fa-external-link-alt"/>Live Demo
         </a>
+
       </div>
     </div>
   );
@@ -417,7 +597,7 @@ function Loader({onDone}){
       <div style={{fontFamily:"'Syne',sans-serif",fontSize:"4.5rem",fontWeight:800,letterSpacing:"-0.04em",lineHeight:1}}>
         {["M","E","R","N"].map((l,i)=><span key={l} style={{color:["#2563EB","#6366F1","#0EA5E9","#0F172A"][i]}}>{l}</span>)}
       </div>
-      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"0.72rem",letterSpacing:"0.38em",color:"#94A3B8",textTransform:"uppercase"}}>Alex Johnson · Portfolio</div>
+      <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:"0.72rem",letterSpacing:"0.38em",color:"#94A3B8",textTransform:"uppercase"}}>Amol Patil · Portfolio</div>
       <div style={{width:280,height:3,background:"#E2E8F0",borderRadius:2,position:"relative",overflow:"hidden"}}>
         <div style={{position:"absolute",inset:0,background:"linear-gradient(90deg,#2563EB,#6366F1,#0EA5E9)",width:`${pct}%`,transition:"width .05s linear",borderRadius:2,boxShadow:"0 0 12px rgba(37,99,235,0.4)"}}/>
       </div>
@@ -506,7 +686,7 @@ export default function Portfolio(){
     {/* ═══ NAVBAR ═══════════════════════════════════════════════ */}
     <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:1000,height:66,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 2.5rem",background:sy>20?"rgba(248,250,255,0.94)":"transparent",backdropFilter:sy>20?"blur(20px)":"none",borderBottom:sy>20?"1px solid rgba(226,232,240,0.8)":"none",transition:"all .3s"}}>
       <div onClick={()=>go("home")} style={{fontFamily:"'Syne',sans-serif",fontSize:"1.45rem",fontWeight:800,color:"#0F172A",cursor:"pointer",letterSpacing:"-0.02em"}}>
-        Alex<span style={{color:"#2563EB"}}>.</span>dev
+      Amol<span style={{color:"#2563EB"}}>.</span>dev
       </div>
       <ul className="dn" style={{display:"flex",gap:"0.1rem",listStyle:"none"}}>
         {NAV.map(n=>(
@@ -544,8 +724,8 @@ export default function Portfolio(){
           </div>
 
           <h1 style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(2.8rem,6vw,5.2rem)",fontWeight:800,lineHeight:1.0,letterSpacing:"-0.04em",color:"#0F172A",marginBottom:"0.9rem"}}>
-            Alex<br/>
-            <span style={{background:"linear-gradient(135deg,#2563EB 0%,#6366F1 60%,#0EA5E9 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Johnson</span>
+          Amol<br/>
+            <span style={{background:"linear-gradient(135deg,#2563EB 0%,#6366F1 60%,#0EA5E9 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Patil</span>
           </h1>
 
           <div style={{fontFamily:"'Syne',sans-serif",fontSize:"clamp(1.1rem,2.2vw,1.6rem)",fontWeight:700,color:"#475569",marginBottom:"1.4rem",minHeight:"2rem"}}>
@@ -578,7 +758,7 @@ export default function Portfolio(){
             ))}
           </div>
 
-          {/* Mini stats */}
+          {/* Mini stats
           <div style={{display:"flex",gap:"2.2rem",marginTop:"2.6rem",paddingTop:"1.8rem",borderTop:"1px solid #E2E8F0",flexWrap:"wrap"}}>
             {STATS_DATA.map(s=>(
               <div key={s.label}>
@@ -586,7 +766,7 @@ export default function Portfolio(){
                 <div style={{fontSize:"0.68rem",color:"#94A3B8",fontWeight:700,marginTop:"0.15rem",textTransform:"uppercase",letterSpacing:"0.09em"}}>{s.label}</div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* RIGHT — animated code SVG avatar */}
@@ -637,7 +817,7 @@ export default function Portfolio(){
                 {/* Animated code lines */}
                 <g fontFamily="monospace" fontSize="11">
                   <text x="75" y="115" fill="#2563EB" style={{animation:"pulse 2s ease infinite"}}>const dev = &#123;</text>
-                  <text x="85" y="132" fill="#059669">  name: "Alex",</text>
+                  <text x="85" y="132" fill="#059669">  name: "Amol",</text>
                   <text x="85" y="149" fill="#7C3AED">  stack: "MERN",</text>
                   <text x="85" y="166" fill="#059669">  coffee: true</text>
                   <text x="75" y="183" fill="#2563EB">&#125;;</text>
@@ -681,13 +861,13 @@ export default function Portfolio(){
               <span style={{background:"linear-gradient(135deg,#2563EB,#6366F1)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>future</span>
               {" "}of the web, one commit at a time.
             </h3>
-            {["I'm a Senior Full-Stack Developer with 5+ years of experience specializing in the MERN stack. I architect and build enterprise-grade applications that handle massive scale — from initial design to cloud deployment.",
+            {["I'm a Senior Full-Stack Developer with 1+ years of experience specializing in the MERN stack. I architect and build enterprise-grade applications that handle massive scale — from initial design to cloud deployment.",
               "My expertise spans the full development lifecycle: crafting pixel-perfect React UIs, designing robust Node.js APIs, optimizing MongoDB databases, and setting up production-grade DevOps pipelines on AWS."
             ].map((t,i)=>(
               <p key={i} style={{color:"#475569",fontSize:"0.95rem",lineHeight:1.88,marginBottom:"0.85rem"}}>{t}</p>
             ))}
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0.65rem",margin:"1.6rem 0"}}>
-              {[["fas fa-map-marker-alt","San Francisco, CA"],["fas fa-graduation-cap","B.Tech Computer Science"],["fas fa-briefcase","5+ Years Experience"],["fas fa-certificate","AWS Certified Developer"],["fas fa-globe","Available Worldwide"],["fas fa-language","English · Hindi · Spanish"]].map(([ic,tx])=>(
+              {[["fas fa-map-marker-alt","Surat , Gujarat"],["fas fa-graduation-cap","BCA"],["fas fa-briefcase","1+ Years Experience"],["fas fa-certificate","AWS Certified Developer"],["fas fa-globe","Available All Our india"],["fas fa-language","English · Hindi · Marathi · Gujarati"]].map(([ic,tx])=>(
                 <div key={tx} style={{display:"flex",alignItems:"center",gap:"0.55rem",fontSize:"0.85rem",color:"#475569",fontWeight:500}}>
                   <i className={ic} style={{color:"#3B82F6",fontSize:"0.78rem",width:13}}/>{tx}
                 </div>
@@ -702,14 +882,14 @@ export default function Portfolio(){
       </div>
     </section>
 
-    {/* ═══ STATS STRIP ══════════════════════════════════════════ */}
+    {/* ═══ STATS STRIP ══════════════════════════════════════════
     <section style={{padding:"3.5rem 0",background:"linear-gradient(135deg,#EFF6FF,#F0F4FF)",borderTop:"1px solid #E2E8F0",borderBottom:"1px solid #E2E8F0"}}>
       <div className="C">
         <div className="sg" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"1.25rem"}}>
           {STATS_DATA.map((s,i)=><StatCard key={s.label} s={s} i={i}/>)}
         </div>
       </div>
-    </section>
+    </section> */}
 
     {/* ═══ SKILLS ═══════════════════════════════════════════════ */}
     <section id="skills" style={{padding:"6rem 0",background:"#fff"}}>
@@ -749,7 +929,7 @@ export default function Portfolio(){
           {PROJECTS.map((p,i)=><ProjCard key={p.title} p={p} index={i}/>)}
         </div>
         <div style={{textAlign:"center",marginTop:"2.8rem"}}>
-          <a href="#" style={BO} onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color="#2563EB";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#374151";}}>
+          <a href="https://github.com/amolpatil1955" style={BO} onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color="#2563EB";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#374151";}}>
             <i className="fab fa-github"/>View All on GitHub
           </a>
         </div>
@@ -782,7 +962,7 @@ export default function Portfolio(){
               Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open. I typically respond within 24 hours.
             </p>
             <div style={{display:"flex",flexDirection:"column",gap:"0.65rem",marginBottom:"1.8rem"}}>
-              {[["fas fa-envelope","Email","alex@developer.com"],["fas fa-phone","Phone","+1 (555) 123-4567"],["fas fa-map-marker-alt","Location","San Francisco, CA"],["fas fa-clock","Availability","Mon–Fri, 9AM–6PM PST"]].map(([ic,lb,vl])=>(
+              {[["fas fa-envelope","Email","ap195569@gmail.com"],["fas fa-phone","Phone","+91: 7574948640"],["fas fa-map-marker-alt","Location","Surat Gujarat"],["fas fa-clock","Availability","Mon–Fri, 9AM–6PM "]].map(([ic,lb,vl])=>(
                 <div key={lb} style={{display:"flex",alignItems:"center",gap:"0.8rem",padding:"0.8rem 1rem",background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:13,transition:"all .22s",cursor:"default",boxShadow:"0 2px 8px rgba(0,0,0,0.03)"}}
                   onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.transform="translateX(4px)";e.currentTarget.style.boxShadow="0 4px 16px rgba(37,99,235,0.1)";}}
                   onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.transform="translateX(0)";e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.03)";}}>
@@ -794,13 +974,51 @@ export default function Portfolio(){
                 </div>
               ))}
             </div>
-            <div style={{display:"flex",gap:"0.55rem"}}>
-              {[["fab fa-github","#0F172A"],["fab fa-linkedin","#0077B5"],["fab fa-twitter","#1DA1F2"],["fab fa-dev","#0F172A"],["fab fa-youtube","#FF0000"]].map(([ic,hc])=>(
-                <a key={ic} href="#" style={{width:42,height:42,background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:11,display:"flex",alignItems:"center",justifyContent:"center",color:"#64748B",fontSize:"0.92rem",textDecoration:"none",transition:"all .22s",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}
-                  onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color=hc;e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 6px 16px rgba(37,99,235,0.12)";}}
-                  onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#64748B";e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)";}}><i className={ic}/></a>
-              ))}
-            </div>
+       <div style={{display:"flex",gap:"0.55rem"}}>
+  {[
+    ["fab fa-github","https://github.com/amolpatil1955","#0F172A"],
+    ["fab fa-linkedin","https://linkedin.com/in/amolpatil1955","#0077B5"],
+    ["fab fa-twitter","https://twitter.com/amolpatil1955","#1DA1F2"],
+    ["fab fa-dev","https://dev.to/amolpatil1955","#0F172A"],
+    ["fab fa-youtube","https://youtube.com/@amolpatil1955","#FF0000"]
+  ].map(([ic,link,hc])=>(
+    <a 
+      key={ic}
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        width:42,
+        height:42,
+        background:"#fff",
+        border:"1.5px solid #E2E8F0",
+        borderRadius:11,
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"center",
+        color:"#64748B",
+        fontSize:"0.92rem",
+        textDecoration:"none",
+        transition:"all .22s",
+        boxShadow:"0 2px 8px rgba(0,0,0,0.04)"
+      }}
+      onMouseEnter={e=>{
+        e.currentTarget.style.borderColor="#BFDBFE";
+        e.currentTarget.style.color=hc;
+        e.currentTarget.style.transform="translateY(-2px)";
+        e.currentTarget.style.boxShadow="0 6px 16px rgba(37,99,235,0.12)";
+      }}
+      onMouseLeave={e=>{
+        e.currentTarget.style.borderColor="#E2E8F0";
+        e.currentTarget.style.color="#64748B";
+        e.currentTarget.style.transform="translateY(0)";
+        e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)";
+      }}
+    >
+      <i className={ic}/>
+    </a>
+  ))}
+</div>
           </div>
 
           {/* Form */}
@@ -845,10 +1063,10 @@ export default function Portfolio(){
     <footer style={{padding:"2.2rem 0",background:"#fff",borderTop:"1px solid #E2E8F0"}}>
       <div className="C" style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:"1rem"}}>
         <div style={{fontFamily:"'Syne',sans-serif",fontSize:"1.28rem",fontWeight:800,color:"#0F172A"}}>
-          Alex<span style={{color:"#2563EB"}}>.</span>dev
+          Amol<span style={{color:"#2563EB"}}>.</span>dev
         </div>
         <p style={{fontSize:"0.8rem",color:"#94A3B8"}}>
-          © 2024 Alex Johnson · Built with <span style={{color:"#2563EB"}}>♥</span> using MERN Stack &amp; Three.js
+          © 2024 Amol Patil · Built with <span style={{color:"#2563EB"}}>♥</span> using MERN Stack &amp; Three.js
         </p>
         <div style={{display:"flex",gap:"1.2rem"}}>
           {["Privacy","Terms","Sitemap"].map(l=>(
