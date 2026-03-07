@@ -750,13 +750,51 @@ export default function Portfolio(){
           </div>
 
           {/* Socials */}
-          <div style={{display:"flex",gap:"0.5rem"}}>
-            {[["fab fa-github","#0F172A"],["fab fa-linkedin","#0077B5"],["fab fa-twitter","#1DA1F2"],["fab fa-dev","#0F172A"],["fab fa-npm","#CC3534"]].map(([ic,hc])=>(
-              <a key={ic} href="#" style={{width:40,height:40,background:"#fff",border:"1.5px solid #E2E8F0",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",color:"#64748B",fontSize:"0.9rem",textDecoration:"none",transition:"all .22s",boxShadow:"0 2px 8px rgba(0,0,0,0.04)"}}
-                onMouseEnter={e=>{e.currentTarget.style.borderColor="#BFDBFE";e.currentTarget.style.color=hc;e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 6px 16px rgba(37,99,235,0.12)";}}
-                onMouseLeave={e=>{e.currentTarget.style.borderColor="#E2E8F0";e.currentTarget.style.color="#64748B";e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)";}}><i className={ic}/></a>
-            ))}
-          </div>
+      <div style={{display:"flex",gap:"0.55rem"}}>
+  {[
+    ["fab fa-github","https://github.com/amolpatil1955","#0F172A"],
+    ["fab fa-linkedin","https://linkedin.com/in/amolpatil1955","#0077B5"],
+    ["fab fa-twitter","https://twitter.com/amolpatil1955","#1DA1F2"],
+    ["fab fa-dev","https://dev.to/amolpatil1955","#0F172A"],
+    ["fab fa-youtube","https://youtube.com/@amolpatil1955","#FF0000"]
+  ].map(([ic,link,hc])=>(
+    <a 
+      key={ic}
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        width:42,
+        height:42,
+        background:"#fff",
+        border:"1.5px solid #E2E8F0",
+        borderRadius:11,
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"center",
+        color:"#64748B",
+        fontSize:"0.92rem",
+        textDecoration:"none",
+        transition:"all .22s",
+        boxShadow:"0 2px 8px rgba(0,0,0,0.04)"
+      }}
+      onMouseEnter={e=>{
+        e.currentTarget.style.borderColor="#BFDBFE";
+        e.currentTarget.style.color=hc;
+        e.currentTarget.style.transform="translateY(-2px)";
+        e.currentTarget.style.boxShadow="0 6px 16px rgba(37,99,235,0.12)";
+      }}
+      onMouseLeave={e=>{
+        e.currentTarget.style.borderColor="#E2E8F0";
+        e.currentTarget.style.color="#64748B";
+        e.currentTarget.style.transform="translateY(0)";
+        e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)";
+      }}
+    >
+      <i className={ic}/>
+    </a>
+  ))}
+</div>
 
           {/* Mini stats
           <div style={{display:"flex",gap:"2.2rem",marginTop:"2.6rem",paddingTop:"1.8rem",borderTop:"1px solid #E2E8F0",flexWrap:"wrap"}}>
