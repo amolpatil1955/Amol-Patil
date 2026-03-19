@@ -73,11 +73,11 @@ const PROJECTS = [
   featured:true
 },
      {
-  title:"Nexus",
+  title:"Nexus.Ai",
   subtitle:"The Nexus Ai",
   repo:"https://github.com/amolpatil1955/NexusAI",
   live:"https://nexusai-1-t7ea.onrender.com",
-  img:"https://mynexusai.com/wp-content/uploads/Nexus-AI-logo.png",
+  img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKEstb87QHJSJYKC1YomlqUK7K-PNZUGFZQQ&s",
   desc:"Nexus AI is an intelligent ChatGPT-like assistant that delivers smart, real-time conversations using modern AI technology.",
   tech:["React","Node.js","MongoDB","TailwindCss","express","render","Grok AI API"],
   accent:"#2563EB",
