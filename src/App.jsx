@@ -71,6 +71,19 @@ const PROJECTS = [
   icon:"fas fa-blog",
   stats:{stars:340,forks:89,views:"12K"},
   featured:true
+},
+     {
+  title:"Nexus",
+  subtitle:"The Ai Resume Builder And ATS Checker",
+  repo:"https://github.com/amolpatil1955/NexusAI",
+  live:"https://nexusai-1-t7ea.onrender.com",
+  img:"https://mynexusai.com/wp-content/uploads/Nexus-AI-logo.png",
+  desc:"Nexus AI is an intelligent ChatGPT-like assistant that delivers smart, real-time conversations using modern AI technology.",
+  tech:["React","Node.js","MongoDB","TailwindCss","express","render","Grok AI API"],
+  accent:"#2563EB",
+  icon:"fas fa-blog",
+  stats:{stars:340,forks:89,views:"12K"},
+  featured:true
 }
 ]
 
