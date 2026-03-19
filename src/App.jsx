@@ -74,7 +74,7 @@ const PROJECTS = [
 },
      {
   title:"Nexus",
-  subtitle:"The Ai Resume Builder And ATS Checker",
+  subtitle:"The Nexus Ai",
   repo:"https://github.com/amolpatil1955/NexusAI",
   live:"https://nexusai-1-t7ea.onrender.com",
   img:"https://mynexusai.com/wp-content/uploads/Nexus-AI-logo.png",
